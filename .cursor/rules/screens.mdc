@@ -1,0 +1,57 @@
+---
+description: How to add a new screen to the GliaKit app shell.
+globs: ["src/app/**/*.tsx"]
+alwaysApply: false
+---
+
+# Adding screens
+
+## Authenticated app screens
+
+Create `src/app/(app)/<route>/page.tsx`. Every screen is wrapped in
+`TalvoFrame` (the app shell: navigation, header, ⌘K), with the page's nav
+index, and composed of the section blocks in `src/components/studio/blocks.tsx`
+laid out with `Columns` from `src/components/studio/frames.tsx`.
+
+Skeleton:
+
+```tsx
+import type { Metadata } from "next";
+
+import { TalvoFrame } from "@/components/app/talvo";
+import { Bare, Columns } from "@/components/studio/frames";
+import { DataTableCard, PageHeaderBlock, StatRow } from "@/components/studio/blocks";
+
+export const metadata: Metadata = { title: "Screen name" };
+
+export default function Page() {
+  return (
+    <TalvoFrame current={7}>
+      <Bare>
+        <PageHeaderBlock title="Screen name" description="What it's for" primaryAction="Primary action" />
+      </Bare>
+      <StatRow stats={[/* … */]} />
+      <Columns>{/* two blocks side by side */}</Columns>
+    </TalvoFrame>
+  );
+}
+```
+
+Then register it: add its name to `NAV` and its route to `LINKS` in
+`src/components/app/talvo.tsx` (in the same position; `current` is that
+index), and add the route to the protected routes in `src/proxy.ts`.
+
+## Patterns by screen type
+
+- **List screen** → `FilterBarBlock` + `DataTableCard` (see `/payments`)
+- **Overview** → `StatRow`, charts and lists in `Columns` (see `/dashboard`)
+- **Time** → `ScheduleCard` or a calendar (see `/calendar`)
+- **Pipeline** → `BoardBlock` (see `/deals`)
+- **Settings** → tabs in the page header with `OnTab` sections (see `/settings`)
+- **Auth** → `src/app/(auth)/<route>/page.tsx`; the layout centers a card
+
+## Data
+
+Content is the blocks' props, written in the page file. To show real data,
+load it in the page (a server component) and pass it in; the database is
+Prisma (`prisma/schema.prisma`, `src/lib/db.ts`).

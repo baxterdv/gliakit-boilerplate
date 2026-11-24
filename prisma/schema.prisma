@@ -1,0 +1,86 @@
+// GliaKit schema — users, customers, and subscriptions.
+// SQLite by default so `npm run db:push && npm run db:seed` works with zero
+// setup. Swap provider to "postgresql" for production.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String?  @unique
+  email     String   @unique
+  name      String?
+  role      Role     @default(MEMBER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subscription Subscription?
+}
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId     String?  @unique
+  stripeSubscriptionId String?  @unique
+  plan                 Plan     @default(FREE)
+  status               SubStatus @default(ACTIVE)
+  currentPeriodEnd     DateTime?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  email     String
+  company   String
+  plan      Plan     @default(FREE)
+  status    CustomerStatus @default(TRIAL)
+  mrr       Int      @default(0)
+  seats     Int      @default(1)
+  createdAt DateTime @default(now())
+
+  events CustomerEvent[]
+}
+
+model CustomerEvent {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  label      String
+  createdAt  DateTime @default(now())
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+enum Plan {
+  FREE
+  PRO
+  TEAM
+  SHIP
+}
+
+enum SubStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+}
+
+enum CustomerStatus {
+  ACTIVE
+  TRIAL
+  PAUSED
+  CHURNED
+}

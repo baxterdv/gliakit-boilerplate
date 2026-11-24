@@ -1,0 +1,2684 @@
+{
+  "plan": {
+    "appName": "Talvo",
+    "kind": "app",
+    "layout": "sidebar",
+    "user": "Alex Morgan",
+    "nav": [
+      "Overview",
+      "Cash flow",
+      "Payments",
+      "Calendar",
+      "Deals",
+      "Reports",
+      "Settings"
+    ],
+    "shell": {
+      "role": "Finance lead",
+      "nested": true,
+      "search": "Search bills, deals, sites\u2026 \u2318K",
+      "badges": {
+        "Payments": "7",
+        "Deals": "3"
+      },
+      "workspace": {
+        "name": "Kettlewick Brewing Co.",
+        "meta": "3 sites"
+      },
+      "actions": [
+        "new",
+        "theme",
+        "help"
+      ],
+      "sidebar": {
+        "tone": "inverse",
+        "nav": "boxed",
+        "parts": [
+          "brand",
+          "workspace",
+          "search",
+          "nav",
+          "divider",
+          {
+            "type": "stat",
+            "label": "Operating balance",
+            "value": "$118.4k",
+            "points": [
+              104.2,
+              109.8,
+              112.5,
+              108.1,
+              115.6,
+              121.3,
+              119,
+              124.7,
+              116.2,
+              113.9,
+              120.5,
+              118.4
+            ],
+            "note": "Dips to $43.1k \u00b7 Nov 16"
+          },
+          {
+            "type": "links",
+            "items": [
+              "Help",
+              "Docs",
+              "Changelog"
+            ]
+          },
+          "user"
+        ]
+      },
+      "headings": {
+        "Overview": "Money",
+        "Calendar": "Operations",
+        "Reports": "Insight"
+      }
+    },
+    "direction": "control",
+    "pages": [
+      [
+        {
+          "id": "e3o5vfjm",
+          "section": "page-header",
+          "span": "full",
+          "surface": "bare",
+          "variant": "default",
+          "props": {
+            "title": "Overview",
+            "range": "Oct 26, 2026 \u2013 Jan 24, 2027",
+            "description": "Cash across Taproom, Brewhouse and Canning line",
+            "primaryAction": "Approve bills",
+            "secondaryAction": "Export report",
+            "date": "Mon, Oct 26, 2026"
+          },
+          "opens": {
+            "action": 0,
+            "secondary": 1
+          }
+        },
+        {
+          "id": "1bz99rsi",
+          "section": "stat-row",
+          "span": "full",
+          "look": {
+            "emphasis": "tinted"
+          },
+          "variant": "compact",
+          "props": {
+            "stats": [
+              {
+                "label": "Cash on hand",
+                "value": "118.4",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+4.1%",
+                "trend": "up",
+                "invert": false,
+                "spark": [
+                  28,
+                  28,
+                  42,
+                  44,
+                  49,
+                  51,
+                  69,
+                  73,
+                  79,
+                  78
+                ],
+                "hint": "vs. last week",
+                "tone": "brand"
+              },
+              {
+                "label": "Expected in",
+                "value": "86.2",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+9.6%",
+                "trend": "up",
+                "invert": false,
+                "spark": [
+                  27,
+                  26,
+                  38,
+                  49,
+                  55,
+                  62,
+                  58,
+                  74,
+                  80,
+                  78
+                ],
+                "hint": "Next 30 days \u00b7 14 invoices"
+              },
+              {
+                "label": "Going out",
+                "value": "161.5",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+12.3%",
+                "trend": "up",
+                "invert": true,
+                "spark": [
+                  21,
+                  36,
+                  34,
+                  42,
+                  51,
+                  51,
+                  63,
+                  73,
+                  71,
+                  87
+                ],
+                "hint": "Next 30 days \u00b7 payroll, malt, cans"
+              },
+              {
+                "label": "Lowest point",
+                "value": "43.1",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "-$16.9k",
+                "trend": "down",
+                "invert": false,
+                "spark": [
+                  77,
+                  74,
+                  75,
+                  58,
+                  62,
+                  47,
+                  51,
+                  41,
+                  39,
+                  30
+                ],
+                "hint": "Nov 16 \u00b7 under the $60k buffer",
+                "tone": "inverse"
+              }
+            ]
+          }
+        },
+        {
+          "id": "anlejhs2",
+          "section": "area-chart",
+          "span": "half",
+          "look": {
+            "density": "compact"
+          },
+          "variant": "default",
+          "props": {
+            "title": "Cash horizon",
+            "description": "Operating balance over the next 90 days",
+            "seriesLabel": "Operating balance",
+            "ranges": [
+              "90d",
+              "30d",
+              "7d"
+            ],
+            "prefix": "$",
+            "suffix": "",
+            "points": [
+              {
+                "label": "Oct 26",
+                "value": 118400
+              },
+              {
+                "label": "Nov 2",
+                "value": 96200
+              },
+              {
+                "label": "Nov 9",
+                "value": 88700
+              },
+              {
+                "label": "Nov 16",
+                "value": 43100
+              },
+              {
+                "label": "Nov 23",
+                "value": 71500
+              },
+              {
+                "label": "Nov 30",
+                "value": 84300
+              },
+              {
+                "label": "Dec 7",
+                "value": 92800
+              },
+              {
+                "label": "Dec 14",
+                "value": 78600
+              },
+              {
+                "label": "Dec 21",
+                "value": 102400
+              },
+              {
+                "label": "Dec 28",
+                "value": 110900
+              },
+              {
+                "label": "Jan 4",
+                "value": 98700
+              },
+              {
+                "label": "Jan 11",
+                "value": 121300
+              }
+            ],
+            "forecastFrom": 8,
+            "baseline": {
+              "value": 60000,
+              "label": "Buffer $60k"
+            },
+            "markers": [
+              {
+                "index": 1,
+                "label": "Payday"
+              },
+              {
+                "index": 3,
+                "label": "Lowest \u00b7 $43.1k"
+              }
+            ]
+          }
+        },
+        {
+          "id": "lhnwuvhv",
+          "section": "breakdown",
+          "span": "half",
+          "look": {
+            "header": "eyebrow",
+            "density": "compact"
+          },
+          "variant": "donut",
+          "props": {
+            "title": "Today",
+            "items": [
+              {
+                "label": "Tasks done",
+                "value": 3,
+                "display": "3 / 8",
+                "max": 8
+              },
+              {
+                "label": "Focus",
+                "value": 1.1,
+                "display": "1.1 h / 2 h",
+                "max": 2
+              },
+              {
+                "label": "Meetings",
+                "value": 1,
+                "display": "1 / 4",
+                "max": 4
+              }
+            ]
+          }
+        },
+        {
+          "id": "mfzpq3ad",
+          "section": "attention-list",
+          "span": "third",
+          "look": {
+            "density": "compact"
+          },
+          "variant": "default",
+          "stack": true,
+          "props": {
+            "title": "Needs attention",
+            "items": [
+              {
+                "tone": "error",
+                "title": "Balance under buffer Nov 16",
+                "text": "Malt order and payroll land the same week",
+                "linkLabel": "View forecast"
+              },
+              {
+                "tone": "warning",
+                "title": "7 bills awaiting approval",
+                "text": "$24.8k \u00b7 Hopsteiner, Ball Cans, PG&E",
+                "linkLabel": "Review bills"
+              }
+            ]
+          }
+        },
+        {
+          "id": "huksd9vl",
+          "section": "bar-chart",
+          "span": "half",
+          "look": {
+            "density": "compact"
+          },
+          "variant": "diverging",
+          "props": {
+            "title": "In and out by week",
+            "description": "Money in above zero, money out below",
+            "ranges": [
+              "8 weeks",
+              "Quarter"
+            ],
+            "prefix": "$",
+            "suffix": "k",
+            "series": [
+              "Money in",
+              "Money out"
+            ],
+            "bars": [
+              {
+                "label": "W44",
+                "values": [
+                  42.1,
+                  -38.6
+                ]
+              },
+              {
+                "label": "W45",
+                "values": [
+                  36.4,
+                  -58.9
+                ]
+              },
+              {
+                "label": "W46",
+                "values": [
+                  31.8,
+                  -39.3
+                ]
+              },
+              {
+                "label": "W47",
+                "values": [
+                  28.5,
+                  -74.1
+                ]
+              },
+              {
+                "label": "W48",
+                "values": [
+                  51.2,
+                  -22.8
+                ]
+              },
+              {
+                "label": "W49",
+                "values": [
+                  47.6,
+                  -34.8
+                ]
+              },
+              {
+                "label": "W50",
+                "values": [
+                  39.9,
+                  -31.4
+                ]
+              },
+              {
+                "label": "W51",
+                "values": [
+                  44.3,
+                  -58.5
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "mlpzhp95",
+          "section": "bar-chart",
+          "span": "half",
+          "look": {
+            "density": "compact"
+          },
+          "variant": "stacked",
+          "props": {
+            "title": "Revenue by segment",
+            "description": "Wholesale accounts per month",
+            "ranges": [
+              "6 months",
+              "Year"
+            ],
+            "prefix": "$",
+            "suffix": "k",
+            "series": [
+              "Enterprise",
+              "Mid-market",
+              "SMB"
+            ],
+            "bars": [
+              {
+                "label": "May",
+                "values": [
+                  48.2,
+                  31.5,
+                  22.4
+                ]
+              },
+              {
+                "label": "Jun",
+                "values": [
+                  52.7,
+                  34.1,
+                  25.9
+                ]
+              },
+              {
+                "label": "Jul",
+                "values": [
+                  61.3,
+                  38.8,
+                  29.6
+                ]
+              },
+              {
+                "label": "Aug",
+                "values": [
+                  58.9,
+                  36.2,
+                  27.1
+                ]
+              },
+              {
+                "label": "Sep",
+                "values": [
+                  54.4,
+                  33.7,
+                  24.8
+                ]
+              },
+              {
+                "label": "Oct",
+                "values": [
+                  63.1,
+                  40.5,
+                  26.3
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "id": "tv00001",
+          "section": "page-header",
+          "span": "full",
+          "variant": "default",
+          "surface": "bare",
+          "props": {
+            "title": "Cash flow",
+            "range": "Oct 26, 2026 \u2013 Jan 24, 2027",
+            "description": "Money in and out across Taproom, Brewhouse and Canning line",
+            "primaryAction": "Add forecast item",
+            "secondaryAction": "Export"
+          }
+        },
+        {
+          "id": "tv00002",
+          "section": "stat-row",
+          "span": "full",
+          "variant": "compact",
+          "look": {
+            "emphasis": "tinted"
+          },
+          "props": {
+            "stats": [
+              {
+                "label": "Money in",
+                "value": "186.3",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+6.2%",
+                "trend": "up",
+                "hint": "This month \u00b7 31 invoices",
+                "points": [
+                  142,
+                  151,
+                  148,
+                  160,
+                  158,
+                  171,
+                  169,
+                  178,
+                  174,
+                  186
+                ],
+                "tone": "brand"
+              },
+              {
+                "label": "Money out",
+                "value": "198.7",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+11.4%",
+                "trend": "up",
+                "invert": true,
+                "hint": "This month \u00b7 payroll, malt, cans",
+                "points": [
+                  150,
+                  156,
+                  161,
+                  158,
+                  170,
+                  176,
+                  181,
+                  188,
+                  192,
+                  199
+                ]
+              },
+              {
+                "label": "Net",
+                "value": "-12.4",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "-$8.1k",
+                "trend": "down",
+                "hint": "Malt order landed early",
+                "points": [
+                  8,
+                  6,
+                  4,
+                  7,
+                  3,
+                  1,
+                  -2,
+                  -6,
+                  -9,
+                  -12
+                ],
+                "tone": "inverse"
+              },
+              {
+                "label": "Runway at this burn",
+                "value": "4.1",
+                "unit": "mo",
+                "delta": "-0.6 mo",
+                "trend": "down",
+                "hint": "Buffer holds until March",
+                "points": [
+                  6.1,
+                  5.9,
+                  5.8,
+                  5.4,
+                  5.2,
+                  5,
+                  4.7,
+                  4.5,
+                  4.3,
+                  4.1
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv00003",
+          "section": "area-chart",
+          "span": "half",
+          "variant": "default",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Balance by week",
+            "description": "Operating balance, this year against last",
+            "seriesLabel": "2026",
+            "compareLabel": "2025",
+            "ranges": [
+              "12 weeks",
+              "Quarter",
+              "Year"
+            ],
+            "prefix": "$",
+            "suffix": "k",
+            "points": [
+              {
+                "label": "W40",
+                "value": 104.2
+              },
+              {
+                "label": "W41",
+                "value": 109.8
+              },
+              {
+                "label": "W42",
+                "value": 112.5
+              },
+              {
+                "label": "W43",
+                "value": 108.1
+              },
+              {
+                "label": "W44",
+                "value": 115.6
+              },
+              {
+                "label": "W45",
+                "value": 121.3
+              },
+              {
+                "label": "W46",
+                "value": 119
+              },
+              {
+                "label": "W47",
+                "value": 124.7
+              },
+              {
+                "label": "W48",
+                "value": 116.2
+              },
+              {
+                "label": "W49",
+                "value": 113.9
+              },
+              {
+                "label": "W50",
+                "value": 120.5
+              },
+              {
+                "label": "W51",
+                "value": 118.4
+              }
+            ],
+            "compare": [
+              88.4,
+              91.2,
+              94.7,
+              90.3,
+              97.8,
+              101.2,
+              99.6,
+              104.1,
+              98.7,
+              95.2,
+              101.9,
+              99.4
+            ],
+            "baseline": {
+              "value": 60,
+              "label": "Buffer $60k"
+            }
+          }
+        },
+        {
+          "id": "tv00004",
+          "section": "breakdown",
+          "span": "half",
+          "variant": "donut",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Going out, next 30 days",
+            "total": "$161.5k",
+            "totalLabel": "Scheduled",
+            "items": [
+              {
+                "label": "Payroll",
+                "value": 68.2,
+                "display": "$68.2k"
+              },
+              {
+                "label": "Malt & hops",
+                "value": 41.6,
+                "display": "$41.6k"
+              },
+              {
+                "label": "Packaging",
+                "value": 24.3,
+                "display": "$24.3k"
+              },
+              {
+                "label": "Utilities",
+                "value": 14.8,
+                "display": "$14.8k"
+              },
+              {
+                "label": "Rent",
+                "value": 12.6,
+                "display": "$12.6k"
+              }
+            ],
+            "linkLabel": "All bills"
+          }
+        },
+        {
+          "id": "tv00005",
+          "section": "bar-chart",
+          "span": "half",
+          "variant": "stacked",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Money in by site",
+            "description": "Receipts per month",
+            "ranges": [
+              "6 months",
+              "Year"
+            ],
+            "prefix": "$",
+            "suffix": "k",
+            "series": [
+              "Taproom",
+              "Brewhouse",
+              "Canning line"
+            ],
+            "bars": [
+              {
+                "label": "May",
+                "values": [
+                  48.2,
+                  71.5,
+                  32.4
+                ]
+              },
+              {
+                "label": "Jun",
+                "values": [
+                  55.7,
+                  74.1,
+                  35.9
+                ]
+              },
+              {
+                "label": "Jul",
+                "values": [
+                  63.3,
+                  78.8,
+                  39.6
+                ]
+              },
+              {
+                "label": "Aug",
+                "values": [
+                  61.9,
+                  76.2,
+                  37.1
+                ]
+              },
+              {
+                "label": "Sep",
+                "values": [
+                  52.4,
+                  73.7,
+                  34.8
+                ]
+              },
+              {
+                "label": "Oct",
+                "values": [
+                  49.1,
+                  80.5,
+                  41.3
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv00006",
+          "section": "bar-chart",
+          "span": "half",
+          "variant": "diverging",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Net by month",
+            "description": "What stayed after the bills",
+            "ranges": [
+              "6 months",
+              "Year"
+            ],
+            "prefix": "$",
+            "suffix": "k",
+            "bars": [
+              {
+                "label": "May",
+                "values": [
+                  18.4
+                ]
+              },
+              {
+                "label": "Jun",
+                "values": [
+                  22.1
+                ]
+              },
+              {
+                "label": "Jul",
+                "values": [
+                  31.7
+                ]
+              },
+              {
+                "label": "Aug",
+                "values": [
+                  26.9
+                ]
+              },
+              {
+                "label": "Sep",
+                "values": [
+                  14.2
+                ]
+              },
+              {
+                "label": "Oct",
+                "values": [
+                  -12.4
+                ]
+              }
+            ],
+            "series": [
+              "Net"
+            ]
+          }
+        },
+        {
+          "id": "tv00007",
+          "section": "data-table",
+          "span": "full",
+          "variant": "default",
+          "props": {
+            "title": "Upcoming movements",
+            "description": "The next two weeks, all sites",
+            "columns": [
+              "Item",
+              "Site",
+              "Date",
+              "Kind",
+              "Amount",
+              "Status"
+            ],
+            "statusColumn": 5,
+            "rowActions": [
+              "Open",
+              "Reschedule",
+              "Mark paid"
+            ],
+            "rows": [
+              [
+                "Payroll \u00b7 42 staff",
+                "All sites",
+                "Oct 30",
+                "Out",
+                "-$34,200",
+                "Scheduled"
+              ],
+              [
+                "Whole Foods \u00b7 Q4 order",
+                "Canning line",
+                "Nov 2",
+                "In",
+                "$28,400",
+                "Expected"
+              ],
+              [
+                "Hopsteiner hops",
+                "Brewhouse",
+                "Nov 2",
+                "Out",
+                "-$8,420",
+                "Awaiting approval"
+              ],
+              [
+                "Ball Metal cans",
+                "Canning line",
+                "Nov 4",
+                "Out",
+                "-$6,150",
+                "Awaiting approval"
+              ],
+              [
+                "Taproom card settlements",
+                "Taproom",
+                "Nov 5",
+                "In",
+                "$19,860",
+                "Expected"
+              ],
+              [
+                "PG&E electricity",
+                "All sites",
+                "Nov 6",
+                "Out",
+                "-$3,270",
+                "Awaiting approval"
+              ],
+              [
+                "Bevmo \u00b7 wholesale",
+                "Canning line",
+                "Nov 9",
+                "In",
+                "$12,300",
+                "Overdue"
+              ]
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "id": "tv00008",
+          "section": "page-header",
+          "span": "full",
+          "variant": "default",
+          "surface": "bare",
+          "props": {
+            "title": "Payments",
+            "description": "Bills to approve, schedule and pay",
+            "primaryAction": "New bill",
+            "secondaryAction": "Pay selected"
+          }
+        },
+        {
+          "id": "tv00009",
+          "section": "stat-row",
+          "span": "full",
+          "variant": "compact",
+          "props": {
+            "stats": [
+              {
+                "label": "Awaiting approval",
+                "value": "7",
+                "hint": "$24.8k \u00b7 due before Nov 13",
+                "points": [
+                  3,
+                  4,
+                  4,
+                  6,
+                  5,
+                  8,
+                  7,
+                  9,
+                  8,
+                  7
+                ],
+                "tone": "brand"
+              },
+              {
+                "label": "Due this week",
+                "value": "18.4",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+$2.1k",
+                "trend": "up",
+                "invert": true,
+                "hint": "5 bills",
+                "points": [
+                  12,
+                  14,
+                  13,
+                  16,
+                  15,
+                  17,
+                  16,
+                  19,
+                  18,
+                  18.4
+                ]
+              },
+              {
+                "label": "Overdue",
+                "value": "2",
+                "hint": "$3.3k \u00b7 Bevmo, Crown Linen",
+                "points": [
+                  0,
+                  1,
+                  0,
+                  0,
+                  2,
+                  1,
+                  1,
+                  3,
+                  2,
+                  2
+                ],
+                "tone": "inverse"
+              },
+              {
+                "label": "Paid this month",
+                "value": "142.9",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+8.0%",
+                "trend": "up",
+                "hint": "On time 96%",
+                "points": [
+                  98,
+                  104,
+                  110,
+                  108,
+                  121,
+                  126,
+                  131,
+                  138,
+                  140,
+                  142.9
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv0000a",
+          "section": "filter-bar",
+          "span": "full",
+          "variant": "chips",
+          "surface": "bare",
+          "props": {
+            "chips": [
+              {
+                "label": "All",
+                "count": 24
+              },
+              {
+                "label": "Awaiting",
+                "count": 7,
+                "colored": true
+              },
+              {
+                "label": "Scheduled",
+                "count": 9,
+                "colored": true
+              },
+              {
+                "label": "Paid",
+                "count": 8,
+                "colored": true
+              }
+            ],
+            "toggle": {
+              "label": "Overdue only",
+              "count": 2
+            },
+            "search": "Search bills, vendors\u2026",
+            "sort": "Sort: Due date"
+          }
+        },
+        {
+          "id": "tv0000b",
+          "section": "data-table",
+          "span": "full",
+          "variant": "default",
+          "props": {
+            "title": "Bills",
+            "columns": [
+              "Vendor",
+              "Site",
+              "Due",
+              "Amount",
+              "Status"
+            ],
+            "statusColumn": 4,
+            "rowActions": [
+              "Approve",
+              "Schedule",
+              "View invoice"
+            ],
+            "rows": [
+              [
+                "Hopsteiner hops",
+                "Brewhouse",
+                "Nov 2",
+                "$8,420",
+                "Awaiting approval"
+              ],
+              [
+                "Ball Metal cans",
+                "Canning line",
+                "Nov 4",
+                "$6,150",
+                "Awaiting approval"
+              ],
+              [
+                "PG&E electricity",
+                "All sites",
+                "Nov 6",
+                "$3,270",
+                "Awaiting approval"
+              ],
+              [
+                "Sysco taproom supplies",
+                "Taproom",
+                "Nov 9",
+                "$2,180",
+                "Awaiting approval"
+              ],
+              [
+                "Bevmo \u00b7 wholesale rebate",
+                "Canning line",
+                "Oct 21",
+                "$2,460",
+                "Overdue"
+              ],
+              [
+                "Crown Linen",
+                "Taproom",
+                "Oct 23",
+                "$840",
+                "Overdue"
+              ],
+              [
+                "Gusto payroll run",
+                "All sites",
+                "Oct 30",
+                "$34,200",
+                "Scheduled"
+              ],
+              [
+                "Rahr Malting",
+                "Brewhouse",
+                "Oct 16",
+                "$11,900",
+                "Paid"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "tv0000c",
+          "section": "leaderboard",
+          "span": "third",
+          "variant": "ranked",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Top vendors this quarter",
+            "items": [
+              {
+                "name": "Rahr Malting",
+                "meta": "Malt",
+                "value": "$48.2k",
+                "change": "+6%",
+                "pct": 100
+              },
+              {
+                "name": "Gusto",
+                "meta": "Payroll",
+                "value": "$102.6k",
+                "change": "0%",
+                "pct": 100
+              },
+              {
+                "name": "Ball Metal",
+                "meta": "Cans",
+                "value": "$24.6k",
+                "change": "+12%",
+                "pct": 51
+              },
+              {
+                "name": "Hopsteiner",
+                "meta": "Hops",
+                "value": "$21.3k",
+                "change": "-4%",
+                "pct": 44
+              },
+              {
+                "name": "PG&E",
+                "meta": "Utilities",
+                "value": "$9.8k",
+                "change": "+9%",
+                "pct": 20
+              }
+            ],
+            "linkLabel": "All vendors"
+          }
+        },
+        {
+          "id": "tv0000d",
+          "section": "key-values",
+          "span": "third",
+          "variant": "list",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Payment runs",
+            "description": "How bills go out",
+            "items": [
+              {
+                "label": "Next run",
+                "value": "Fri, Nov 6"
+              },
+              {
+                "label": "Method",
+                "value": "ACH \u00b7 Mercury"
+              },
+              {
+                "label": "Approver",
+                "value": "Alex Morgan"
+              },
+              {
+                "label": "Second approver above",
+                "value": "$25,000"
+              },
+              {
+                "label": "Run limit",
+                "value": "$50,000"
+              },
+              {
+                "label": "Status",
+                "value": "Ready",
+                "status": true
+              }
+            ],
+            "action": "Edit payment rules"
+          }
+        },
+        {
+          "id": "tv0000e",
+          "section": "attention-list",
+          "span": "third",
+          "variant": "default",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Needs attention",
+            "items": [
+              {
+                "tone": "error",
+                "title": "2 bills overdue",
+                "text": "Bevmo rebate and Crown Linen \u00b7 $3.3k",
+                "linkLabel": "Pay now"
+              },
+              {
+                "tone": "warning",
+                "title": "Hopsteiner needs a second approver",
+                "text": "$8,420 is over the $5k single-approver limit",
+                "linkLabel": "Ask Priya"
+              },
+              {
+                "tone": "info",
+                "title": "PG&E switched to autopay",
+                "text": "Starts with the December bill",
+                "linkLabel": "Review"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "id": "tv0000f",
+          "section": "page-header",
+          "span": "full",
+          "variant": "default",
+          "surface": "bare",
+          "props": {
+            "title": "Calendar",
+            "description": "Payroll, deliveries and deadlines across the sites",
+            "primaryAction": "Add event",
+            "secondaryAction": "Sync QuickBooks",
+            "date": "Mon, Oct 26, 2026"
+          }
+        },
+        {
+          "id": "tv0000g",
+          "section": "schedule",
+          "span": "full",
+          "variant": "week",
+          "props": {
+            "title": "This week",
+            "date": "Oct 26 \u2013 Nov 1, 2026 \u00b7 11 things booked",
+            "days": [
+              "Mon 26",
+              "Tue 27",
+              "Wed 28",
+              "Thu 29",
+              "Fri 30",
+              "Sat 31",
+              "Sun 1"
+            ],
+            "today": 0,
+            "now": "09:15",
+            "from": 7,
+            "to": 18,
+            "kinds": [
+              "Payroll",
+              "Delivery",
+              "Deadline",
+              "Meeting",
+              "On site"
+            ],
+            "events": [
+              {
+                "title": "Bank reconciliation",
+                "start": "08:00",
+                "end": "09:00",
+                "day": 0,
+                "place": "Finance",
+                "kind": "Deadline"
+              },
+              {
+                "title": "Rahr malt delivery",
+                "start": "10:00",
+                "end": "12:00",
+                "day": 0,
+                "place": "Brewhouse",
+                "kind": "Delivery"
+              },
+              {
+                "title": "Cash review with Priya",
+                "start": "14:00",
+                "end": "15:00",
+                "day": 0,
+                "place": "Video call",
+                "kind": "Meeting"
+              },
+              {
+                "title": "Ball Metal cans arrive",
+                "start": "07:30",
+                "end": "09:30",
+                "day": 1,
+                "place": "Canning line",
+                "kind": "Delivery"
+              },
+              {
+                "title": "Approve bills cut-off",
+                "start": "16:00",
+                "end": "17:00",
+                "day": 1,
+                "place": "Finance",
+                "kind": "Deadline"
+              },
+              {
+                "title": "Taproom stock count",
+                "start": "09:00",
+                "end": "11:00",
+                "day": 2,
+                "place": "Taproom",
+                "kind": "On site"
+              },
+              {
+                "title": "Whole Foods buyer visit",
+                "start": "13:00",
+                "end": "14:30",
+                "day": 2,
+                "place": "Brewhouse",
+                "kind": "Meeting"
+              },
+              {
+                "title": "Payroll submitted",
+                "start": "10:00",
+                "end": "11:00",
+                "day": 3,
+                "place": "Gusto",
+                "kind": "Payroll"
+              },
+              {
+                "title": "Sales tax filing",
+                "start": "15:00",
+                "end": "16:00",
+                "day": 3,
+                "place": "Finance",
+                "kind": "Deadline"
+              },
+              {
+                "title": "Payroll lands",
+                "start": "08:00",
+                "end": "09:00",
+                "day": 4,
+                "place": "All sites",
+                "kind": "Payroll"
+              },
+              {
+                "title": "Halloween taproom night",
+                "start": "17:00",
+                "end": "18:00",
+                "day": 5,
+                "place": "Taproom",
+                "kind": "On site"
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv0000h",
+          "section": "agenda",
+          "span": "third",
+          "variant": "list",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Today",
+            "date": "Mon, Oct 26",
+            "events": [
+              {
+                "time": "08:00",
+                "title": "Bank reconciliation",
+                "duration": "1 h"
+              },
+              {
+                "time": "10:00",
+                "title": "Rahr malt delivery",
+                "duration": "2 h"
+              },
+              {
+                "time": "14:00",
+                "title": "Cash review with Priya",
+                "duration": "1 h"
+              },
+              {
+                "time": "16:30",
+                "title": "Approve the week's bills",
+                "duration": "30 min"
+              }
+            ],
+            "linkLabel": "Full day"
+          }
+        },
+        {
+          "id": "tv0000i",
+          "section": "attention-list",
+          "span": "third",
+          "variant": "default",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Coming up",
+            "items": [
+              {
+                "tone": "warning",
+                "title": "Payroll lands Fri \u00b7 $34.2k",
+                "text": "Balance drops to $84k the same day",
+                "linkLabel": "Check cash"
+              },
+              {
+                "tone": "info",
+                "title": "Sales tax due Thu",
+                "text": "Q3 filing \u00b7 $6,120",
+                "linkLabel": "Open filing"
+              },
+              {
+                "tone": "success",
+                "title": "Whole Foods PO signed",
+                "text": "$28.4k lands Nov 2",
+                "linkLabel": "See deal"
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv0000j",
+          "section": "calendar",
+          "span": "third",
+          "variant": "events",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "November",
+            "month": "November 2026",
+            "startDay": 6,
+            "days": 30,
+            "marked": [
+              2,
+              4,
+              6,
+              13,
+              16,
+              27,
+              30
+            ],
+            "events": [
+              {
+                "day": 2,
+                "title": "Whole Foods payment in",
+                "time": "Expected"
+              },
+              {
+                "day": 13,
+                "title": "Payroll",
+                "time": "08:00"
+              },
+              {
+                "day": 16,
+                "title": "Lowest balance \u00b7 $43.1k",
+                "time": "Forecast"
+              },
+              {
+                "day": 27,
+                "title": "Payroll",
+                "time": "08:00"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "id": "tv0000k",
+          "section": "page-header",
+          "span": "full",
+          "variant": "default",
+          "surface": "bare",
+          "props": {
+            "title": "Deals",
+            "description": "Wholesale accounts in the pipeline",
+            "primaryAction": "Add deal",
+            "secondaryAction": "Import"
+          }
+        },
+        {
+          "id": "tv0000l",
+          "section": "stat-row",
+          "span": "full",
+          "variant": "compact",
+          "props": {
+            "stats": [
+              {
+                "label": "Pipeline",
+                "value": "412",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+$38k",
+                "trend": "up",
+                "hint": "14 open deals",
+                "points": [
+                  280,
+                  296,
+                  310,
+                  324,
+                  318,
+                  352,
+                  361,
+                  374,
+                  398,
+                  412
+                ],
+                "tone": "brand"
+              },
+              {
+                "label": "Weighted",
+                "value": "186",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+9.4%",
+                "trend": "up",
+                "hint": "By stage probability",
+                "points": [
+                  120,
+                  128,
+                  131,
+                  140,
+                  138,
+                  152,
+                  160,
+                  171,
+                  179,
+                  186
+                ]
+              },
+              {
+                "label": "Closing this month",
+                "value": "3",
+                "total": "5",
+                "hint": "$64k \u00b7 Whole Foods, Bevmo, Bi-Rite",
+                "points": [
+                  1,
+                  1,
+                  2,
+                  2,
+                  3,
+                  2,
+                  3,
+                  4,
+                  3,
+                  3
+                ]
+              },
+              {
+                "label": "Win rate",
+                "value": "38",
+                "unit": "%",
+                "delta": "+3 pts",
+                "trend": "up",
+                "hint": "Last 90 days",
+                "points": [
+                  29,
+                  31,
+                  30,
+                  33,
+                  32,
+                  35,
+                  34,
+                  36,
+                  37,
+                  38
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv0000m",
+          "section": "board",
+          "span": "full",
+          "variant": "painted",
+          "props": {
+            "actionLabel": "Add deal",
+            "columns": [
+              {
+                "name": "Lead",
+                "tone": "neutral",
+                "cards": [
+                  {
+                    "title": "Bi-Rite Market",
+                    "detail": "$18k \u00b7 40 cases/mo",
+                    "tags": [
+                      "Retail"
+                    ],
+                    "person": "Maya Lin",
+                    "due": "Nov 12",
+                    "priority": "medium"
+                  },
+                  {
+                    "title": "The Alembic",
+                    "detail": "$9k \u00b7 taps",
+                    "tags": [
+                      "On-premise"
+                    ],
+                    "person": "Jordan Reyes",
+                    "due": "Nov 20"
+                  },
+                  {
+                    "title": "Gus's Community Market",
+                    "detail": "$7k",
+                    "tags": [
+                      "Retail"
+                    ],
+                    "person": "Maya Lin",
+                    "due": "Dec 1",
+                    "priority": "low"
+                  }
+                ]
+              },
+              {
+                "name": "Qualified",
+                "tone": "info",
+                "cards": [
+                  {
+                    "title": "Rainbow Grocery",
+                    "detail": "$24k \u00b7 60 cases/mo",
+                    "tags": [
+                      "Retail",
+                      "Organic"
+                    ],
+                    "person": "Jordan Reyes",
+                    "due": "Nov 18",
+                    "priority": "medium"
+                  },
+                  {
+                    "title": "Zeitgeist",
+                    "detail": "$11k \u00b7 4 taps",
+                    "tags": [
+                      "On-premise"
+                    ],
+                    "person": "Maya Lin",
+                    "due": "Nov 25"
+                  }
+                ]
+              },
+              {
+                "name": "Proposal",
+                "tone": "warning",
+                "cards": [
+                  {
+                    "title": "Whole Foods NorCal",
+                    "detail": "$28.4k \u00b7 Q4 order",
+                    "tags": [
+                      "Retail",
+                      "Key account"
+                    ],
+                    "person": "Alex Morgan",
+                    "due": "Nov 2",
+                    "priority": "urgent"
+                  },
+                  {
+                    "title": "Bevmo",
+                    "detail": "$22k \u00b7 55 cases/mo",
+                    "tags": [
+                      "Retail"
+                    ],
+                    "person": "Jordan Reyes",
+                    "due": "Nov 9",
+                    "priority": "high"
+                  },
+                  {
+                    "title": "Toronado",
+                    "detail": "$13.6k \u00b7 6 taps",
+                    "tags": [
+                      "On-premise"
+                    ],
+                    "person": "Maya Lin",
+                    "due": "Nov 14",
+                    "priority": "high"
+                  }
+                ]
+              },
+              {
+                "name": "Won",
+                "tone": "success",
+                "cards": [
+                  {
+                    "title": "Monk's Kettle",
+                    "detail": "$15.2k \u00b7 signed Oct 21",
+                    "tags": [
+                      "On-premise"
+                    ],
+                    "person": "Maya Lin",
+                    "due": "Oct 21"
+                  },
+                  {
+                    "title": "Berkeley Bowl",
+                    "detail": "$19.8k \u00b7 signed Oct 14",
+                    "tags": [
+                      "Retail"
+                    ],
+                    "person": "Jordan Reyes",
+                    "due": "Oct 14"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv0000n",
+          "section": "timeline",
+          "span": "full",
+          "variant": "bars",
+          "props": {
+            "title": "Closing timeline",
+            "description": "Created \u2192 expected close, by week",
+            "columns": [
+              "Oct 26",
+              "Nov 2",
+              "Nov 9",
+              "Nov 16",
+              "Nov 23",
+              "Nov 30",
+              "Dec 7",
+              "Dec 14"
+            ],
+            "today": 0.3,
+            "kinds": [
+              "Lead",
+              "Qualified",
+              "Proposal",
+              "Won"
+            ],
+            "items": [
+              {
+                "name": "Whole Foods NorCal",
+                "meta": "Alex Morgan",
+                "start": 0,
+                "end": 1.2,
+                "label": "Q4 order \u00b7 $28.4k",
+                "group": "Proposal",
+                "kind": "Proposal"
+              },
+              {
+                "name": "Bevmo",
+                "meta": "Jordan Reyes",
+                "start": 0.4,
+                "end": 2.2,
+                "label": "55 cases/mo \u00b7 $22k",
+                "group": "Proposal",
+                "kind": "Proposal"
+              },
+              {
+                "name": "Toronado",
+                "meta": "Maya Lin",
+                "start": 1,
+                "end": 2.9,
+                "label": "6 taps \u00b7 $13.6k",
+                "group": "Proposal",
+                "kind": "Proposal"
+              },
+              {
+                "name": "Rainbow Grocery",
+                "meta": "Jordan Reyes",
+                "start": 1.5,
+                "end": 3.6,
+                "label": "60 cases/mo \u00b7 $24k",
+                "group": "Qualified",
+                "kind": "Qualified"
+              },
+              {
+                "name": "Zeitgeist",
+                "meta": "Maya Lin",
+                "start": 2.2,
+                "end": 4.4,
+                "label": "4 taps \u00b7 $11k",
+                "group": "Qualified",
+                "kind": "Qualified"
+              },
+              {
+                "name": "Bi-Rite Market",
+                "meta": "Maya Lin",
+                "start": 1.8,
+                "end": 5.3,
+                "label": "40 cases/mo \u00b7 $18k",
+                "group": "Lead",
+                "kind": "Lead"
+              },
+              {
+                "name": "The Alembic",
+                "meta": "Jordan Reyes",
+                "start": 3,
+                "end": 6.4,
+                "label": "Taps \u00b7 $9k",
+                "group": "Lead",
+                "kind": "Lead"
+              }
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "id": "tv0000o",
+          "section": "page-header",
+          "span": "full",
+          "variant": "default",
+          "surface": "bare",
+          "props": {
+            "title": "Reports",
+            "range": "Q4 2026 to date",
+            "description": "Margin, spend and revenue by site",
+            "primaryAction": "Export report",
+            "secondaryAction": "Schedule"
+          }
+        },
+        {
+          "id": "tv0000p",
+          "section": "stat-row",
+          "span": "full",
+          "variant": "compact",
+          "props": {
+            "stats": [
+              {
+                "label": "Gross margin",
+                "value": "41.2",
+                "unit": "%",
+                "delta": "+1.8 pts",
+                "trend": "up",
+                "hint": "vs. Q3",
+                "points": [
+                  36.1,
+                  37.4,
+                  38.2,
+                  37.9,
+                  39.1,
+                  39.8,
+                  40.2,
+                  40.6,
+                  40.9,
+                  41.2
+                ],
+                "tone": "brand"
+              },
+              {
+                "label": "Revenue",
+                "value": "368",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+7.3%",
+                "trend": "up",
+                "hint": "Quarter to date",
+                "points": [
+                  280,
+                  292,
+                  301,
+                  310,
+                  318,
+                  331,
+                  340,
+                  352,
+                  361,
+                  368
+                ]
+              },
+              {
+                "label": "Spend",
+                "value": "217",
+                "prefix": "$",
+                "unit": "k",
+                "delta": "+4.1%",
+                "trend": "up",
+                "invert": true,
+                "hint": "Malt up, cans flat",
+                "points": [
+                  170,
+                  176,
+                  181,
+                  188,
+                  192,
+                  199,
+                  204,
+                  209,
+                  213,
+                  217
+                ]
+              },
+              {
+                "label": "Cost per barrel",
+                "value": "187",
+                "prefix": "$",
+                "delta": "-$6",
+                "trend": "down",
+                "invert": true,
+                "hint": "Canning line efficiency",
+                "points": [
+                  204,
+                  201,
+                  199,
+                  198,
+                  196,
+                  194,
+                  192,
+                  190,
+                  189,
+                  187
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv0000q",
+          "section": "area-chart",
+          "span": "half",
+          "variant": "default",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Revenue, this year vs last",
+            "seriesLabel": "2026",
+            "compareLabel": "2025",
+            "ranges": [
+              "Year",
+              "Quarter"
+            ],
+            "prefix": "$",
+            "suffix": "k",
+            "points": [
+              {
+                "label": "Jan",
+                "value": 88
+              },
+              {
+                "label": "Feb",
+                "value": 92
+              },
+              {
+                "label": "Mar",
+                "value": 104
+              },
+              {
+                "label": "Apr",
+                "value": 110
+              },
+              {
+                "label": "May",
+                "value": 118
+              },
+              {
+                "label": "Jun",
+                "value": 131
+              },
+              {
+                "label": "Jul",
+                "value": 140
+              },
+              {
+                "label": "Aug",
+                "value": 136
+              },
+              {
+                "label": "Sep",
+                "value": 128
+              },
+              {
+                "label": "Oct",
+                "value": 146
+              }
+            ],
+            "compare": [
+              76,
+              81,
+              90,
+              94,
+              102,
+              111,
+              119,
+              117,
+              108,
+              121
+            ],
+            "markers": [
+              {
+                "index": 5,
+                "label": "Canning live"
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv0000r",
+          "section": "bar-chart",
+          "span": "half",
+          "variant": "default",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Margin by site",
+            "description": "Gross margin per month, %",
+            "ranges": [
+              "6 months",
+              "Year"
+            ],
+            "suffix": "%",
+            "series": [
+              "Taproom",
+              "Brewhouse",
+              "Canning line"
+            ],
+            "bars": [
+              {
+                "label": "May",
+                "values": [
+                  62,
+                  38,
+                  24
+                ]
+              },
+              {
+                "label": "Jun",
+                "values": [
+                  64,
+                  39,
+                  27
+                ]
+              },
+              {
+                "label": "Jul",
+                "values": [
+                  66,
+                  41,
+                  29
+                ]
+              },
+              {
+                "label": "Aug",
+                "values": [
+                  65,
+                  40,
+                  31
+                ]
+              },
+              {
+                "label": "Sep",
+                "values": [
+                  61,
+                  42,
+                  33
+                ]
+              },
+              {
+                "label": "Oct",
+                "values": [
+                  63,
+                  43,
+                  35
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv0000s",
+          "section": "heatmap",
+          "span": "half",
+          "variant": "cells",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Taproom sales by hour",
+            "description": "Share of the week's takings",
+            "rowLabels": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "columnLabels": [
+              "11a",
+              "12p",
+              "1p",
+              "2p",
+              "3p",
+              "4p",
+              "5p",
+              "6p",
+              "7p",
+              "8p",
+              "9p",
+              "10p"
+            ],
+            "summary": "Busiest: Fri 7pm \u00b7 quietest: Tue 2pm",
+            "linkLabel": "Staffing plan"
+          }
+        },
+        {
+          "id": "tv0000t",
+          "section": "funnel",
+          "span": "half",
+          "variant": "bands",
+          "look": {
+            "density": "compact"
+          },
+          "props": {
+            "title": "Wholesale pipeline",
+            "description": "Quarter to date",
+            "stages": [
+              {
+                "label": "Leads",
+                "value": 48
+              },
+              {
+                "label": "Qualified",
+                "value": 29
+              },
+              {
+                "label": "Proposals",
+                "value": 17
+              },
+              {
+                "label": "Won",
+                "value": 11
+              }
+            ],
+            "linkLabel": "Open deals"
+          }
+        },
+        {
+          "id": "tv0000u",
+          "section": "data-table",
+          "span": "full",
+          "variant": "default",
+          "props": {
+            "title": "Spend by category",
+            "description": "Quarter over quarter",
+            "columns": [
+              "Category",
+              "Q3",
+              "Q4 to date",
+              "Change",
+              "Share",
+              "Trend"
+            ],
+            "statusColumn": 5,
+            "rows": [
+              [
+                "Payroll",
+                "$198,400",
+                "$136,200",
+                "+2.1%",
+                "48%",
+                "Steady"
+              ],
+              [
+                "Malt & hops",
+                "$84,900",
+                "$61,300",
+                "+9.8%",
+                "22%",
+                "Rising"
+              ],
+              [
+                "Packaging",
+                "$52,200",
+                "$34,100",
+                "-1.2%",
+                "12%",
+                "Steady"
+              ],
+              [
+                "Utilities",
+                "$28,700",
+                "$21,900",
+                "+12.4%",
+                "8%",
+                "Rising"
+              ],
+              [
+                "Rent",
+                "$37,800",
+                "$25,200",
+                "0%",
+                "9%",
+                "Steady"
+              ],
+              [
+                "Marketing",
+                "$9,100",
+                "$4,300",
+                "-18.0%",
+                "1%",
+                "Falling"
+              ]
+            ]
+          }
+        }
+      ],
+      [
+        {
+          "id": "tv0000v",
+          "section": "page-header",
+          "span": "full",
+          "variant": "default",
+          "surface": "bare",
+          "props": {
+            "title": "Settings",
+            "description": "Kettlewick Brewing Co. \u00b7 3 sites",
+            "tabs": [
+              "Workspace",
+              "Sites",
+              "Approvals",
+              "Notifications"
+            ]
+          }
+        },
+        {
+          "id": "tv0000w",
+          "section": "settings-form",
+          "span": "full",
+          "variant": "default",
+          "tab": 0,
+          "props": {
+            "title": "Workspace",
+            "description": "What every report and invoice shows",
+            "fields": [
+              {
+                "label": "Company name",
+                "value": "Kettlewick Brewing Co."
+              },
+              {
+                "label": "Billing email",
+                "value": "finance@kettlewick.beer",
+                "type": "email"
+              },
+              {
+                "label": "Base currency",
+                "value": "USD \u00b7 US dollar"
+              },
+              {
+                "label": "Fiscal year starts",
+                "value": "2026-01-01",
+                "type": "date"
+              },
+              {
+                "label": "Cash buffer",
+                "value": "$60,000",
+                "helper": "Forecasts warn when the balance is heading under it"
+              }
+            ],
+            "submitLabel": "Save changes"
+          }
+        },
+        {
+          "id": "tv0000x",
+          "section": "key-values",
+          "span": "half",
+          "variant": "grid",
+          "tab": 0,
+          "props": {
+            "title": "Plan",
+            "items": [
+              {
+                "label": "Plan",
+                "value": "Growth"
+              },
+              {
+                "label": "Seats",
+                "value": "6 of 10"
+              },
+              {
+                "label": "Renews",
+                "value": "Jan 1, 2027"
+              },
+              {
+                "label": "Status",
+                "value": "Active",
+                "status": true
+              }
+            ],
+            "action": "Manage billing"
+          }
+        },
+        {
+          "id": "tv0000y",
+          "section": "link-list",
+          "span": "half",
+          "variant": "card",
+          "tab": 0,
+          "props": {
+            "title": "More",
+            "items": [
+              {
+                "title": "Members",
+                "subtitle": "6 people \u00b7 2 invitations pending",
+                "icon": "users"
+              },
+              {
+                "title": "Integrations",
+                "subtitle": "QuickBooks, Mercury, Gusto",
+                "icon": "sync"
+              },
+              {
+                "title": "Security",
+                "subtitle": "SSO and two-factor sign-in",
+                "icon": "lock"
+              },
+              {
+                "title": "Export data",
+                "subtitle": "Everything as CSV",
+                "icon": "download"
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv0000z",
+          "section": "data-table",
+          "span": "full",
+          "variant": "default",
+          "tab": 1,
+          "props": {
+            "title": "Sites",
+            "description": "Where the money moves",
+            "columns": [
+              "Site",
+              "Manager",
+              "Bank account",
+              "Cost centre",
+              "Status"
+            ],
+            "statusColumn": 4,
+            "rowActions": [
+              "Edit",
+              "Archive"
+            ],
+            "actionLabel": "Add site",
+            "rows": [
+              [
+                "Taproom",
+                "Sam Okafor",
+                "Mercury \u2022\u20224821",
+                "TAP-01",
+                "Active"
+              ],
+              [
+                "Brewhouse",
+                "Priya Natarajan",
+                "Mercury \u2022\u20224821",
+                "BRW-01",
+                "Active"
+              ],
+              [
+                "Canning line",
+                "Luis Herrera",
+                "Mercury \u2022\u20227730",
+                "CAN-01",
+                "Active"
+              ],
+              [
+                "Barrel room (planned)",
+                "\u2014",
+                "\u2014",
+                "BAR-01",
+                "Draft"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "tv00010",
+          "section": "toggle-list",
+          "span": "full",
+          "variant": "default",
+          "tab": 2,
+          "props": {
+            "title": "Approvals",
+            "description": "Who signs off before money goes out",
+            "items": [
+              {
+                "label": "Require approval above $5,000",
+                "description": "One approver on any bill over the limit",
+                "enabled": true
+              },
+              {
+                "label": "Two approvers above $25,000",
+                "description": "A second sign-off for large runs",
+                "enabled": true
+              },
+              {
+                "label": "Autopay utilities",
+                "description": "PG&E and water go out without approval",
+                "enabled": false
+              },
+              {
+                "label": "Block payments under the buffer",
+                "description": "Hold non-payroll bills when the forecast dips under $60k",
+                "enabled": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "tv00011",
+          "section": "toggle-list",
+          "span": "full",
+          "variant": "default",
+          "tab": 3,
+          "props": {
+            "title": "Notifications",
+            "description": "What Alex hears about, and where",
+            "items": [
+              {
+                "label": "Bills awaiting approval",
+                "description": "Email each morning at 8:00",
+                "enabled": true
+              },
+              {
+                "label": "Balance heading under the buffer",
+                "description": "Push and email as soon as the forecast changes",
+                "enabled": true
+              },
+              {
+                "label": "Payment run completed",
+                "description": "Email after every run",
+                "enabled": true
+              },
+              {
+                "label": "Weekly cash digest",
+                "description": "Mondays at 7:00",
+                "enabled": false
+              },
+              {
+                "label": "Deal stage changes",
+                "description": "Push when a deal moves",
+                "enabled": false
+              }
+            ]
+          }
+        }
+      ]
+    ],
+    "pageIds": [
+      "vyq0csfq",
+      "nfzfaoez",
+      "g1ybm7ol",
+      "yoavmnkx",
+      "lvk1qr8r",
+      "x3278q8i",
+      "kbiocb5b"
+    ],
+    "overlays": [
+      [
+        {
+          "id": "4pdgdlka",
+          "kind": "drawer",
+          "title": "Bills awaiting approval",
+          "description": "7 bills \u00b7 $24.8k due before Nov 13",
+          "body": {
+            "type": "stack",
+            "children": [
+              {
+                "type": "listrow",
+                "title": "Hopsteiner hops",
+                "meta": "Brewhouse \u00b7 due Nov 2",
+                "value": "$8,420"
+              },
+              {
+                "type": "listrow",
+                "title": "Ball Metal cans",
+                "meta": "Canning line \u00b7 due Nov 4",
+                "value": "$6,150"
+              },
+              {
+                "type": "listrow",
+                "title": "PG&E electricity",
+                "meta": "All sites \u00b7 due Nov 6",
+                "value": "$3,270"
+              },
+              {
+                "type": "listrow",
+                "title": "Sysco taproom supplies",
+                "meta": "Taproom \u00b7 due Nov 9",
+                "value": "$2,180"
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "keyvalue",
+                "label": "Balance after approval",
+                "value": "$93.6k"
+              }
+            ],
+            "gap": "md",
+            "align": "stretch"
+          },
+          "action": "Approve 7 bills",
+          "toast": "7 bills approved"
+        },
+        {
+          "id": "xedjfjqc",
+          "kind": "popover",
+          "title": "Export report",
+          "body": {
+            "type": "stack",
+            "children": [
+              {
+                "type": "select",
+                "label": "Format",
+                "options": [
+                  "PDF",
+                  "CSV",
+                  "Excel"
+                ],
+                "value": "PDF"
+              },
+              {
+                "type": "segmented",
+                "label": "Sites",
+                "options": [
+                  "All",
+                  "Taproom",
+                  "Brewhouse",
+                  "Canning"
+                ],
+                "value": "All"
+              }
+            ],
+            "gap": "md",
+            "align": "stretch"
+          },
+          "action": "Export",
+          "toast": "Report exported"
+        }
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ]
+  },
+  "brand": {
+    "primary": "#a3e635",
+    "theme": "light",
+    "radius": "tight",
+    "density": "compact",
+    "border": {
+      "width": 1,
+      "visible": true
+    },
+    "gap": 10,
+    "font": "neutral",
+    "effects": [
+      {
+        "type": "drop",
+        "amount": 35,
+        "visible": true
+      },
+      {
+        "type": "inner",
+        "amount": 60,
+        "visible": true
+      }
+    ],
+    "backdrop": "plain",
+    "backdropStrength": 50,
+    "tones": "mono",
+    "charts": "brand",
+    "components": {
+      "button": "flat",
+      "card": "bordered",
+      "input": "filled",
+      "badge": "dot",
+      "table": "zebra",
+      "labels": "mono",
+      "avatar": "initials"
+    },
+    "navColor": null,
+    "canvas": null,
+    "borderColor": null,
+    "accent": null,
+    "customFont": null
+  }
+}

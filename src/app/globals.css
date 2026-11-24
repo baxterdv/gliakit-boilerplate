@@ -1,0 +1,3091 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  GliaKit — design tokens
+  ----------------------------
+  Dark is the default and only theme for v1. All colors are exposed as CSS
+  custom properties following shadcn semantic naming. Components must never
+  hardcode hex values — this 1:1 mapping is the product's selling point.
+*/
+
+@theme inline {
+  /* shadcn semantic color tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  /* Deeper violet for fills under white text (5.1:1); --primary stays the
+     accent and text color, which needs to stay light on dark backgrounds. */
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-foreground: var(--primary-foreground);
+  /* The brand colour as text: Studio themes set --primary-ink to a shade
+     that reaches 4.5:1 on the cards; otherwise it's the brand colour. */
+  --color-primary-ink: var(--primary-ink, var(--primary));
+  /* The brand for small data marks, kept at 3:1 on cards (Studio themes set --primary-mark). */
+  --color-primary-mark: var(--primary-mark, var(--primary));
+  /* Data highlights (progress, meters, chart leads): the theme's accent, else the brand. */
+  --color-highlight: var(--highlight, var(--primary));
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Brand tokens — the "gliakit" signal colors.
+     `signal` (cyan) is reserved for the gradient + small highlights only,
+     never a flat fill. `violet` maps to --primary. */
+  --color-signal-violet: var(--signal-violet);
+  --color-signal-violet-strong: var(--signal-violet-strong);
+  --color-signal-cyan: var(--signal-cyan);
+
+  /* Semantic code-diff colors */
+  --color-diff-add: var(--diff-add);
+  --color-diff-add-bg: var(--diff-add-bg);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-diff-remove: var(--diff-remove);
+  --color-diff-remove-bg: var(--diff-remove-bg);
+
+  /* Chart tokens (kept for shadcn compatibility) */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Sidebar tokens (kept for shadcn compatibility) */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Fonts */
+  /* --studio-* overrides come from a theme (GliaKit Studio); unset = GliaKit defaults
+     (Geist throughout, like gliakit.com; themes pick their own heading face). */
+  --font-sans: var(--studio-font-body, var(--font-geist-sans));
+  --font-mono: var(--font-jetbrains-mono);
+  --font-heading: var(--studio-font-heading, var(--font-geist-sans));
+
+  /* Radius scale — 6 / 8 / 12 / 16.
+     buttons & inputs = md (8), cards = lg (12), media frames = xl (16). */
+  --radius-sm: var(--studio-radius-sm, 0.375rem); /* 6px */
+  --radius-md: var(--studio-radius-md, 0.5rem); /* 8px */
+  --radius-lg: var(--studio-radius-lg, 0.75rem); /* 12px */
+  --radius-xl: var(--studio-radius-xl, 1rem); /* 16px */
+  --radius-2xl: 1.25rem; /* 20px */
+
+  /* Type scale — 12 / 14 / 16 / 20 / 28 / 40 / 64; a theme's Text size scales them (--studio-text-*). */
+  --text-eyebrow: var(--studio-text-eyebrow, 0.75rem); /* 12px */
+  --text-eyebrow--line-height: 1;
+  --text-display-sm: var(--studio-text-display-sm, 1.75rem); /* 28px */
+  --text-display-sm--line-height: 1.15;
+  --text-display: var(--studio-text-display, 2.5rem); /* 40px */
+  --text-display--line-height: 1.1;
+  --text-hero: var(--studio-text-hero, 4rem); /* 64px */
+  --text-hero--line-height: 1.05;
+}
+
+:root {
+  /* Surfaces */
+  --background: #0a0a0f; /* near-black, cold tint */
+  --foreground: #ededf2;
+  --card: #111118;
+  --card-foreground: #ededf2;
+  --popover: #111118;
+  --popover-foreground: #ededf2;
+
+  /* Primary — electric violet (the gliakit signal color) */
+  --primary: #7c5cff;
+  --primary-strong: #6f4bff;
+  --primary-foreground: #ffffff;
+
+  /* Secondary — subtle elevated surface for secondary buttons */
+  --secondary: #1a1a24;
+  --secondary-foreground: #ededf2;
+
+  /* Muted — dense backgrounds and muted text */
+  --muted: #16161e;
+  --muted-foreground: #8a8a99;
+
+  /* Accent — shadcn's hover-surface token. Kept as a neutral elevated
+     surface so ghost/menu hovers read as "raised," not colored. The brand
+     cyan lives in --signal-cyan and is used only in the gradient/highlights. */
+  --accent: #1a1a24;
+  --accent-foreground: #ededf2;
+
+  /* Destructive */
+  --destructive: #f8717a;
+  --warning: #f59e0b;
+  --warning-foreground: #fbbf24;
+
+  /* Structure — hairline borders do the structural work, not shadows */
+  --border: #1f1f2a;
+  --input: #1f1f2a;
+  --ring: #7c5cff;
+
+  /* Brand signal colors */
+  --signal-violet: #7c5cff;
+  /* Under white text (Studio's own labels): 5.1:1. */
+  --signal-violet-strong: #6f4bff;
+  --signal-cyan: #22d3ee;
+  --signal-magenta: #e879f9;
+  --signal-orange: #fb923c;
+  --signal-red: #ef4444;
+  /* The area chart's line and fill: the lead series, one solid colour (a gradient line would mean nothing). */
+  --chart-from: var(--chart-1);
+  --chart-to: var(--chart-1);
+
+  /* Signature gradient: violet -> cyan.
+     Reserved for: hero headline keyword, primary CTA hover, signal-line. */
+  --gradient-signal: linear-gradient(90deg, #7c5cff 0%, #22d3ee 100%);
+  --gradient-signal-135: linear-gradient(135deg, #7c5cff 0%, #22d3ee 100%);
+  /* Palindrome (violet -> cyan -> violet) so the hero shimmer tiles seamlessly
+     at 200% background-size — no hard seam where the loop repeats. */
+  --gradient-signal-loop: linear-gradient(
+    90deg,
+    #7c5cff 0%,
+    #22d3ee 50%,
+    #7c5cff 100%
+  );
+
+  /* Code-diff semantics */
+  --diff-add: #4ade80;
+  --diff-add-bg: rgba(74, 222, 128, 0.1);
+  --diff-remove: #f8717a;
+  --diff-remove-bg: rgba(248, 113, 122, 0.1);
+
+  /* Radius base */
+  --radius: 0.5rem;
+
+  /* Charts: series in a fixed order, each 3:1 on its mode's cards and page.
+     A Studio theme sets --chart-N-light and --chart-N-dark; red, amber and
+     green stay out of the series, kept for status. */
+  --chart-1: var(--chart-1-dark, #7c5cff);
+  --chart-2: var(--chart-2-dark, #22d3ee);
+  --chart-3: var(--chart-3-dark, #fb923c);
+  --chart-4: var(--chart-4-dark, #e879f9);
+  --chart-5: var(--chart-5-dark, #2dd4bf);
+
+  /* Sidebar */
+  --sidebar: #111118;
+  --sidebar-foreground: #ededf2;
+  --sidebar-primary: #7c5cff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1a24;
+  --sidebar-accent-foreground: #ededf2;
+  --sidebar-border: #1f1f2a;
+  --sidebar-ring: #7c5cff;
+
+  color-scheme: dark;
+}
+
+/* Dark class mirrors :root so shadcn `.dark`-scoped components resolve
+   identically. v1 is dark-only. */
+.dark {
+  --background: #0a0a0f;
+  --foreground: #ededf2;
+  --card: #111118;
+  --card-foreground: #ededf2;
+  --popover: #111118;
+  --popover-foreground: #ededf2;
+  --primary: #7c5cff;
+  --primary-strong: #6f4bff;
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a24;
+  --secondary-foreground: #ededf2;
+  --muted: #16161e;
+  --muted-foreground: #8a8a99;
+  --accent: #1a1a24;
+  --accent-foreground: #ededf2;
+  --destructive: #f8717a;
+  --warning: #f59e0b;
+  --warning-foreground: #fbbf24;
+  --border: #1f1f2a;
+  --input: #1f1f2a;
+  --ring: #7c5cff;
+  --signal-violet: #7c5cff;
+  /* Under white text (Studio's own labels): 5.1:1. */
+  --signal-violet-strong: #6f4bff;
+  --signal-cyan: #22d3ee;
+  --signal-magenta: #e879f9;
+  --signal-orange: #fb923c;
+  --signal-red: #ef4444;
+  --diff-add: #4ade80;
+  --diff-add-bg: rgba(74, 222, 128, 0.1);
+  --diff-remove: #f8717a;
+  --diff-remove-bg: rgba(248, 113, 122, 0.1);
+  --chart-1: var(--chart-1-dark, #7c5cff);
+  --chart-2: var(--chart-2-dark, #22d3ee);
+  --chart-3: var(--chart-3-dark, #fb923c);
+  --chart-4: var(--chart-4-dark, #e879f9);
+  --chart-5: var(--chart-5-dark, #2dd4bf);
+  --sidebar: #111118;
+  --sidebar-foreground: #ededf2;
+  --sidebar-primary: #7c5cff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1a24;
+  --sidebar-accent-foreground: #ededf2;
+  --sidebar-border: #1f1f2a;
+  --sidebar-ring: #7c5cff;
+
+  color-scheme: dark;
+  /* Scope the inherited text color so nested theme zones re-base correctly. */
+  color: var(--foreground);
+}
+
+/* Light theme — scoped to the lower half of the landing page. Same semantic
+   token names, light values. Violet primary + the signature gradient carry
+   over unchanged. */
+.light {
+  --background: #f4f4f8;
+  --foreground: #14141b;
+  --card: #ffffff;
+  --card-foreground: #14141b;
+  --popover: #ffffff;
+  --popover-foreground: #14141b;
+  --primary: #7c5cff;
+  --primary-strong: #6f4bff;
+  --primary-foreground: #ffffff;
+  --secondary: #ececf1;
+  --secondary-foreground: #14141b;
+  --muted: #ececf2;
+  --muted-foreground: #5c5c6b;
+  --accent: #ececf1;
+  --accent-foreground: #14141b;
+  --destructive: #b91c1c;
+  --warning: #f59e0b;
+  --warning-foreground: #a14a07;
+  --border: #e3e3ea;
+  --input: #e3e3ea;
+  --ring: #7c5cff;
+  --signal-violet: #7c5cff;
+  /* Under white text (Studio's own labels): 5.1:1. */
+  --signal-violet-strong: #6f4bff;
+  --signal-cyan: #22d3ee;
+  --signal-magenta: #e879f9;
+  --signal-orange: #fb923c;
+  --signal-red: #ef4444;
+  --diff-add: #166534;
+  --diff-add-bg: rgba(22, 163, 74, 0.1);
+  --diff-remove: #dc2626;
+  --diff-remove-bg: rgba(220, 38, 38, 0.1);
+  --chart-1: var(--chart-1-light, #7c5cff);
+  --chart-2: var(--chart-2-light, #0891b2);
+  --chart-3: var(--chart-3-light, #ea580c);
+  --chart-4: var(--chart-4-light, #c026d3);
+  --chart-5: var(--chart-5-light, #0f766e);
+  --sidebar: #ffffff;
+  --sidebar-foreground: #14141b;
+  --sidebar-primary: #7c5cff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ececf1;
+  --sidebar-accent-foreground: #14141b;
+  --sidebar-border: #e3e3ea;
+  --sidebar-ring: #7c5cff;
+
+  color-scheme: light;
+  color: var(--foreground);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+    /* A word or figure longer than its box breaks onto the next line instead of running out of it. */
+    overflow-wrap: anywhere;
+  }
+  /* Tables keep whole words: a table too wide for its card scrolls inside it. */
+  table {
+    overflow-wrap: normal;
+  }
+  /* A key cap or a shortcut hint ("⌘K", "esc") is one piece: it never breaks between its characters, and a tight row never squeezes it. */
+  kbd,
+  [data-slot="kbd"],
+  [data-slot$="-shortcut"] {
+    overflow-wrap: normal;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--studio-font-heading, var(--font-geist-sans));
+    letter-spacing: -0.02em;
+  }
+}
+
+/*
+  Control size: buttons, inputs, selects and toggles share one height,
+  --control-units of the density's --spacing (9 = 36px as designed).
+  GliaKit Studio sets data-controls on <html> to make every control
+  smaller or larger together; the -sm and -lg steps sit one unit either side.
+*/
+/*
+  Touch targets: on a touch screen every control is at least 44px
+  (40px for -sm), whatever the density or control size, so a finger lands.
+*/
+@media (pointer: coarse) {
+  :root {
+    --control-min: 2.75rem;
+  }
+}
+/* Phones zoom into a field typed in under 16px; at 16px they don't. */
+@media (pointer: coarse) and (max-width: 767px) {
+  input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"]),
+  textarea,
+  select {
+    font-size: max(1rem, 16px);
+  }
+}
+/* Focus and anchors land clear of the sticky top bar and bottom tabs (WCAG 2.4.11). */
+html {
+  scroll-padding-top: 5rem;
+  scroll-padding-bottom: 5rem;
+}
+@utility h-control {
+  height: max(var(--control-min, 0px), calc(var(--spacing) * var(--control-units, 9)));
+}
+@utility h-control-sm {
+  height: max(calc(var(--control-min, 0px) - 0.25rem), calc(var(--spacing) * (var(--control-units, 9) - 1)));
+}
+@utility h-control-lg {
+  height: max(calc(var(--control-min, 0px) + 0.25rem), calc(var(--spacing) * (var(--control-units, 9) + 1)));
+}
+@utility min-h-control {
+  min-height: max(var(--control-min, 0px), calc(var(--spacing) * var(--control-units, 9)));
+}
+@utility size-control {
+  width: max(var(--control-min, 0px), calc(var(--spacing) * var(--control-units, 9)));
+  height: max(var(--control-min, 0px), calc(var(--spacing) * var(--control-units, 9)));
+}
+@utility size-control-sm {
+  width: max(calc(var(--control-min, 0px) - 0.25rem), calc(var(--spacing) * (var(--control-units, 9) - 1)));
+  height: max(calc(var(--control-min, 0px) - 0.25rem), calc(var(--spacing) * (var(--control-units, 9) - 1)));
+}
+@utility size-control-lg {
+  width: max(calc(var(--control-min, 0px) + 0.25rem), calc(var(--spacing) * (var(--control-units, 9) + 1)));
+  height: max(calc(var(--control-min, 0px) + 0.25rem), calc(var(--spacing) * (var(--control-units, 9) + 1)));
+}
+
+@layer utilities {
+  /* Signature gradient applied to text (hero keyword) */
+  .text-gradient-signal {
+    background: var(--gradient-signal);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Signature gradient as a background (CTA hover, signal line) */
+  .bg-gradient-signal {
+    background: var(--gradient-signal);
+  }
+
+  /* Glossy CTA — top-lit inner highlights + a tight stack of soft drop
+     shadows, plus a subtle glow in the brand colour (violet in GliaKit). For filled button variants. */
+  .shadow-glossy {
+    box-shadow:
+      inset 0 1px 2px -0.5px rgb(255 255 255 / 0.2),
+      inset 0 0.5px 0.5px rgb(255 255 255 / 0.28),
+      inset 0 8px 24px -6px rgb(255 255 255 / 0.18),
+      0 6px 20px -6px color-mix(in oklab, var(--primary) 50%, transparent),
+      0 8px 8px -3px rgb(9 1 20 / 0.06),
+      0 5px 5px -2.5px rgb(9 1 20 / 0.06),
+      0 3px 3px -1.5px rgb(8 1 20 / 0.06),
+      0 2px 2px -1px rgb(8 1 20 / 0.06),
+      0 1px 1px -0.5px rgb(8 1 20 / 0.06);
+  }
+  .shadow-glossy:hover {
+    box-shadow:
+      inset 0 1px 2px -0.5px rgb(255 255 255 / 0.24),
+      inset 0 0.5px 0.5px rgb(255 255 255 / 0.32),
+      inset 0 8px 24px -6px rgb(255 255 255 / 0.22),
+      0 8px 26px -6px color-mix(in oklab, var(--primary) 60%, transparent),
+      0 8px 8px -3px rgb(9 1 20 / 0.08),
+      0 5px 5px -2.5px rgb(9 1 20 / 0.08),
+      0 3px 3px -1.5px rgb(8 1 20 / 0.08);
+  }
+
+  /* Mono eyebrow label helper */
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  /* Scroll-entrance reveal — CSS-driven so the end state is declarative and
+     can never get stuck mid-animation on a throttled tab. Toggled by the
+     FadeUp component's IntersectionObserver. */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.4s ease,
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .fade-up.is-visible {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+}
+
+/* No transform/opacity gate when motion is reduced or JS is unavailable. */
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Slow looping gradient shimmer for the hero keyword */
+@keyframes signal-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* Breathing blurred glow behind the hero feature pillars on hover */
+@keyframes pillar-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 0.75;
+  }
+}
+
+/* Subtle fade-up on scroll entrance (12px, 400ms) */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+  Navigation colour, header band and canvas (GliaKit Studio, data-nav /
+  data-canvas). A coloured navigation and the page header's "band" design
+  share one colour, --studio-band (the nav colour, else the brand fill), and
+  the theme works out the text that reads on it at WCAG AA: --studio-band-fg
+  (white or near-black) and --studio-band-muted (as soft as 4.5:1 allows).
+  Inside, the semantic tokens are re-pointed to those inks, so every title,
+  link, icon, divider and control stays readable without new classes, on a
+  pale lime band as much as on a navy one.
+*/
+/* App frame (data-frame): from desktop widths, the app is one rounded sheet
+   on an outer page: the backdrop when there is one, else the frame colour or
+   a wash of the brand. Full-height parts inside fit the sheet, and sticky
+   ones stop at its top edge. */
+@media (min-width: 1024px) {
+  [data-frame][data-backdrop="plain"] body {
+    background-color: var(--studio-frame, color-mix(in oklch, var(--primary) 16%, var(--background)));
+  }
+  [data-frame] [data-slot="app-frame"] {
+    --frame-pad: 16px;
+    margin: var(--frame-pad);
+    min-height: calc(100dvh - 2 * var(--frame-pad));
+    overflow: clip;
+    border-radius: 24px;
+    background-color: var(--background);
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--foreground) 8%, transparent), 0 1px 2px rgb(0 0 0 / 0.04), 0 24px 48px -28px rgb(0 0 0 / 0.28);
+  }
+  [data-frame][data-canvas] [data-slot="app-frame"] {
+    background-color: var(--studio-canvas);
+  }
+  [data-frame] [data-slot="app-frame"] .min-h-dvh {
+    min-height: calc(100dvh - 2 * var(--frame-pad));
+  }
+  [data-frame] [data-slot="app-frame"] .h-dvh {
+    height: calc(100dvh - 2 * var(--frame-pad));
+  }
+  [data-frame] [data-slot="app-frame"] .sticky.top-0 {
+    top: var(--frame-pad);
+  }
+}
+[data-canvas] body {
+  background-color: var(--studio-canvas);
+}
+[data-nav] [data-slot="app-nav"],
+[data-slot="nav-band"] {
+  --foreground: var(--studio-band-fg, #ffffff);
+  --muted-foreground: var(--studio-band-muted, #ffffff);
+  --muted: color-mix(in oklch, var(--studio-band-fg, #ffffff) 12%, transparent);
+  --border: color-mix(in oklch, var(--studio-band-fg, #ffffff) 16%, transparent);
+  --input: color-mix(in oklch, var(--studio-band-fg, #ffffff) 30%, transparent);
+  --primary: var(--studio-band-fg, #ffffff);
+  --primary-mark: var(--studio-band-fg, #ffffff);
+  --primary-ink: var(--studio-band-fg, #ffffff);
+  --primary-foreground: var(--studio-band, var(--studio-brand-fill));
+  /* Every button style fills with the brand fill: here, the band's ink, lettered in the band colour. */
+  --primary-strong: var(--studio-band-fg, #ffffff);
+  --ring: var(--studio-band-fg, #ffffff);
+  --card: var(--studio-band, var(--studio-brand-fill));
+  --background: color-mix(in oklch, var(--studio-band-fg, #ffffff) 8%, var(--studio-band, var(--studio-brand-fill)));
+  background-color: var(--studio-band, var(--studio-brand-fill));
+  border-color: transparent;
+  color: var(--foreground);
+}
+/* Buttons in a band: the main action is filled with the band's ink and
+   lettered in the band colour (the same pair, so it reads at AA whichever
+   way round); outline buttons take the ink for their edge and label. */
+[data-slot="nav-band"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  background-color: var(--studio-band-fg, #ffffff);
+  background-image: none;
+  color: var(--studio-band, var(--studio-brand-fill));
+}
+[data-slot="nav-band"] [data-slot="button"][data-variant="outline"] {
+  background-color: transparent;
+  border-color: color-mix(in oklch, var(--studio-band-fg, #ffffff) 45%, transparent);
+  color: var(--studio-band-fg, #ffffff);
+}
+:is([data-slot="nav-band"] [data-slot="button"], [data-nav] [data-slot="app-nav"] a):focus-visible {
+  outline: 2px solid var(--studio-band-fg, #ffffff);
+  outline-offset: 2px;
+}
+
+/* Border weight (GliaKit Studio, data-borders): every outlined box (cards,
+   panels, lists, alerts, fields, outline buttons) and the navigation's edge.
+   Hairline dividers inside them stay 1px, and small controls keep their own. */
+[data-borders] :is(
+    [data-slot="card"],
+    [data-slot="file-upload"],
+    [class~="border"]:not(
+        [data-slot="input"],
+        [data-slot="textarea"],
+        [data-slot="select-trigger"],
+        [data-slot="button"],
+        [class~="border-transparent"],
+        kbd,
+        [data-slot="kbd"],
+        [data-slot="checkbox"],
+        [data-slot="radio-group-item"],
+        [data-slot="switch"],
+        [data-slot="badge"],
+        [data-slot="chip"],
+        [data-slot="avatar"],
+        [data-slot="tabs-trigger"],
+        [data-slot="accordion-trigger"]
+      )
+  ) {
+  border-width: var(--studio-border);
+}
+/* Fields and outline buttons: the same Border width as every other box. */
+[data-borders] :is(
+    [data-slot="input"],
+    [data-slot="textarea"],
+    [data-slot="select-trigger"],
+    [data-slot="combobox-trigger"],
+    [data-slot="date-trigger"],
+    [data-slot="input-group"],
+    [data-slot="button"][data-variant="outline"]
+  ) {
+  border-width: var(--studio-border);
+}
+[data-borders] [data-slot="app-nav"][class~="border-t"] {
+  border-top-width: var(--studio-border);
+}
+[data-borders] [data-slot="app-nav"][class~="border-r"] {
+  border-right-width: var(--studio-border);
+}
+[data-borders] [data-slot="app-nav"][class~="border-b"] {
+  border-bottom-width: var(--studio-border);
+}
+@media (width >= 40rem) {
+  [data-borders] [class~="sm:border"] {
+    border-width: var(--studio-border);
+  }
+}
+@media (width >= 64rem) {
+  [data-borders] [class~="lg:border"] {
+    border-width: var(--studio-border);
+  }
+}
+
+/*
+  Component styles (GliaKit Studio), set on <html> as data-button, data-controls,
+  data-card, data-input, data-field, data-badge, data-table, data-tabs,
+  data-labels, data-avatar, data-switch, data-checkbox, data-radio,
+  data-slider, data-chips, data-progress, data-menus, data-tooltip and
+  data-notices. Absent = GliaKit's own. They key off the components' data-slot
+  hooks, so every block follows.
+*/
+[data-controls="sm"] {
+  --control-units: 8;
+}
+[data-controls="lg"] {
+  --control-units: 10;
+}
+[data-controls="xs"] {
+  --control-units: 7;
+}
+[data-controls="xl"] {
+  --control-units: 11;
+}
+
+/*
+  Field labels: where a field's label sits. The kit's Field is a grid of
+  label, control and note (data-slot="field", "field-label", "field-control",
+  "field-note"); these move the label without touching the control.
+*/
+[data-field="beside"] [data-slot="field"]:has(> [data-slot="field-label"]),
+[data-field="end"] [data-slot="field"]:has(> [data-slot="field-label"]) {
+  grid-template-columns: minmax(6rem, 2fr) 5fr;
+  column-gap: calc(var(--spacing) * 3);
+  align-items: center;
+}
+:is([data-field="beside"], [data-field="end"]) [data-slot="field"] > [data-slot="field-note"] {
+  grid-column: 2;
+}
+/* Beside, right-aligned: the labels line up against their fields, as in a form sheet. */
+[data-field="end"] [data-slot="field"] > [data-slot="field-label"] {
+  justify-self: end;
+  text-align: end;
+}
+[data-field="floating"] [data-slot="field"]:has(> [data-slot="field-label"]) {
+  position: relative;
+  padding-top: calc(var(--spacing) * 2);
+}
+/* The label cuts into the control's top edge, its own background masking the border (or the fill). */
+[data-field="floating"] [data-slot="field"] > [data-slot="field-label"] {
+  position: absolute;
+  top: calc(var(--spacing) * 2);
+  left: calc(var(--spacing) * 2.5);
+  z-index: 1;
+  transform: translateY(-50%);
+  padding-inline: calc(var(--spacing) * 1);
+  border-radius: 2px;
+  background-color: var(--card);
+  font-size: 11px;
+  line-height: 1.2;
+}
+/* An underlined input has no top edge: the label sits above the line, flush left. */
+[data-input="underline"][data-field="floating"] [data-slot="field"] > [data-slot="field-label"] {
+  left: 0;
+  padding-inline: 0;
+  background-color: transparent;
+  transform: translateY(-100%);
+}
+[data-field="inside"] [data-slot="field"]:has(> [data-slot="field-label"]) {
+  position: relative;
+}
+[data-field="inside"] [data-slot="field"] > [data-slot="field-label"] {
+  position: absolute;
+  top: calc(var(--spacing) * 1.5);
+  left: calc(var(--spacing) * 3);
+  z-index: 1;
+  pointer-events: none;
+  font-size: 10.5px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--muted-foreground);
+}
+[data-field="inside"] [data-slot="field"]:has(> [data-slot="field-label"]) [data-slot="field-control"] :is([data-slot="input"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]) {
+  height: calc(var(--spacing) * (var(--control-units, 9) + 3));
+}
+[data-field="inside"] [data-slot="field"]:has(> [data-slot="field-label"]) [data-slot="field-control"] :is([data-slot="input"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group-control"], [data-slot="textarea"]) {
+  padding-top: calc(var(--spacing) * 3.5);
+}
+[data-field="inside"][data-input="underline"] [data-slot="field"] > [data-slot="field-label"] {
+  left: 0;
+}
+
+/* Tabs: the kit's line tabs (data-variant="line") as pills in a tray, or as boxed buttons. */
+[data-tabs="pills"] [data-slot="tabs-list"][data-variant="line"] {
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-lg);
+  background-color: var(--muted);
+}
+[data-tabs="pills"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"] {
+  padding-inline: calc(var(--spacing) * 3);
+}
+[data-tabs="pills"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-state="active"] {
+  background-color: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 1px 2px color-mix(in oklch, var(--foreground) 10%, transparent);
+}
+[data-tabs="boxed"] [data-slot="tabs-list"][data-variant="line"] {
+  gap: calc(var(--spacing) * 1.5);
+}
+[data-tabs="boxed"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"] {
+  padding-inline: calc(var(--spacing) * 3);
+  border-color: var(--border);
+}
+[data-tabs="boxed"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-state="active"] {
+  background-color: var(--card);
+  color: var(--foreground);
+  border-color: color-mix(in oklch, var(--foreground) 30%, transparent);
+}
+:is([data-tabs="pills"], [data-tabs="boxed"], [data-tabs="outline"]) [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"]::after {
+  display: none;
+}
+/* Outlined pills: each tab its own outlined pill, apart from the others; the
+   active one filled with the text colour (black on light, white on dark). */
+[data-tabs="outline"] [data-slot="tabs-list"][data-variant="line"] {
+  gap: calc(var(--spacing) * 1.5);
+  border-bottom-color: transparent;
+}
+[data-tabs="outline"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"] {
+  padding-inline: calc(var(--spacing) * 3.5);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+}
+[data-tabs="outline"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"]:hover {
+  border-color: color-mix(in oklch, var(--foreground) 35%, transparent);
+}
+[data-tabs="outline"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-state="active"] {
+  background-color: var(--foreground);
+  border-color: var(--foreground);
+  color: var(--card);
+}
+:is([data-button="flat"], [data-button="soft"], [data-button="outline"])
+  [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  box-shadow: none;
+  background-image: none;
+}
+[data-button="soft"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  background-color: color-mix(in oklch, var(--primary) 16%, transparent);
+  /* Pulled toward the text colour, so light brands (sky, mint) stay readable. */
+  color: color-mix(in oklch, var(--primary) 62%, var(--foreground));
+}
+[data-button="soft"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]):hover {
+  background-color: color-mix(in oklch, var(--primary) 24%, transparent);
+}
+[data-button="outline"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  background-color: transparent;
+  /* The brand's text colour, which reads at AA on the page (the raw brand may not). */
+  color: var(--primary-ink);
+  box-shadow: inset 0 0 0 var(--studio-border, 1.5px) var(--primary-ink);
+}
+[data-button="outline"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]):hover {
+  background-color: color-mix(in oklch, var(--primary) 10%, transparent);
+}
+/* A theme's gradient button hovers into the brand fill's own gradient (the
+   kit's violet-to-cyan stays for GliaKit itself), so its text keeps AA. */
+[data-backdrop] [data-slot="button"][data-variant="gradient"]:hover {
+  background-image: linear-gradient(90deg, var(--primary-strong), color-mix(in oklch, var(--primary-strong) 78%, var(--highlight, var(--signal-cyan))));
+}
+[data-button="gradient"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  /* From the brand fill (AA with its text) to a light turn toward cyan. */
+  background-image: linear-gradient(135deg, var(--primary-strong), color-mix(in oklch, var(--primary-strong) 78%, var(--signal-cyan)));
+}
+
+/* Tactile: chunky, pressable 3D buttons with a solid ledge (the Duolingo look). */
+[data-button="tactile"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  background-image: none;
+  background-color: var(--primary-strong);
+  color: var(--primary-foreground);
+  border: var(--studio-border, 2px) solid color-mix(in oklch, var(--primary-strong) 72%, black);
+  box-shadow: 0 4px 0 0 color-mix(in oklch, var(--primary-strong) 72%, black);
+  font-weight: 600;
+}
+[data-button="tactile"] [data-slot="button"]:is([data-variant="outline"], [data-variant="secondary"]) {
+  background-color: var(--card);
+  border: var(--studio-border, 2px) solid color-mix(in oklch, var(--foreground) 12%, transparent);
+  box-shadow: 0 4px 0 0 color-mix(in oklch, var(--foreground) 12%, transparent);
+  font-weight: 600;
+}
+[data-button="tactile"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"], [data-variant="outline"], [data-variant="secondary"]) {
+  margin-bottom: 4px;
+  transition: transform 80ms ease, box-shadow 80ms ease;
+}
+[data-button="tactile"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"], [data-variant="outline"], [data-variant="secondary"]):active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 0 color-mix(in oklch, var(--foreground) 12%, transparent);
+}
+[data-button="tactile"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]):active {
+  box-shadow: 0 1px 0 0 color-mix(in oklch, var(--primary-strong) 72%, black);
+}
+/* Hover lifts it a pixel on a taller ledge: the opposite of the press. */
+[data-button="tactile"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]):hover:not(:active) {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 0 color-mix(in oklch, var(--primary-strong) 72%, black);
+}
+[data-button="tactile"] [data-slot="button"]:is([data-variant="outline"], [data-variant="secondary"]):hover:not(:active) {
+  transform: translateY(-1px);
+  background-color: color-mix(in oklch, var(--foreground) 4%, var(--card));
+  box-shadow: 0 5px 0 0 color-mix(in oklch, var(--foreground) 14%, transparent);
+}
+
+[data-card="borderless"] [data-slot="card"]:not([class*="border-primary"]) {
+  border-color: transparent;
+}
+/* Card styles that hide the edge (borderless, elevated, sunken, clay) show it once the theme's Border is
+   set to another width: the Border control reaches every card, in the Border colour. */
+[data-border-set]:is([data-card="borderless"], [data-card="elevated"], [data-card="sunken"], [data-card="clay"]) [data-slot="card"]:not([class*="border-primary"]) {
+  border-color: var(--studio-border-color, color-mix(in oklch, var(--foreground) 14%, transparent));
+}
+[data-card="outlined"] [data-slot="card"]:not([class*="border-primary"]) {
+  /* Card styles add to the theme's Containers width (--studio-border), so that setting moves every style. */
+  border-width: calc(var(--studio-border, 1px) + 0.5px);
+  border-color: var(--studio-border-color, color-mix(in oklch, var(--foreground) 24%, transparent));
+}
+[data-card="tinted"] [data-slot="card"] {
+  background-color: color-mix(in oklch, var(--primary) 7%, var(--card));
+}
+[data-card="tinted"] [data-slot="card"]:not([class*="border-primary"]) {
+  border-color: var(--studio-border-color, color-mix(in oklch, var(--primary) 18%, transparent));
+}
+
+[data-input="filled"] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]):not([data-slot="input-group"] *) {
+  background-color: color-mix(in oklch, var(--foreground) 6%, transparent);
+  border-color: transparent;
+  box-shadow: none;
+}
+[data-input="underline"] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]):not([data-slot="input-group"] *) {
+  background-color: transparent;
+  border-width: 0 0 1.5px;
+  border-radius: 0;
+  padding-right: 0;
+  box-shadow: none;
+}
+/* Flush left, unless the input makes room for an icon (a search field's pl-8). */
+[data-input="underline"] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]):not([data-slot="input-group"] *):not([class*="pl-"]) {
+  padding-left: 0;
+}
+
+[data-badge="outline"] [data-slot="badge"]:not([class*="bg-primary-strong"]) {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 var(--studio-border, 1px) color-mix(in oklch, currentColor 45%, transparent);
+}
+[data-badge="dot"] [data-slot="badge"]:not([class*="bg-primary-strong"]) {
+  background-color: transparent;
+  padding-inline: 0;
+  color: var(--foreground);
+}
+[data-badge="dot"] [data-slot="badge"]:not([class*="bg-primary-strong"])::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 9999px;
+  background-color: var(--badge-dot, currentColor);
+}
+/* The dot keeps the badge's meaning colour; the text goes neutral. */
+[data-badge="dot"] [data-slot="badge"][class*="text-diff-add"] { --badge-dot: var(--diff-add); }
+[data-badge="dot"] [data-slot="badge"][class*="text-destructive"] { --badge-dot: var(--destructive); }
+[data-badge="dot"] [data-slot="badge"][class*="text-warning"] { --badge-dot: var(--warning); }
+[data-badge="dot"] [data-slot="badge"][class*="text-muted-foreground"] { --badge-dot: var(--muted-foreground); }
+
+[data-table="zebra"] [data-slot="table"] tbody tr {
+  border-color: transparent;
+}
+[data-table="zebra"] [data-slot="table"] tbody tr:nth-child(even) {
+  background-color: color-mix(in oklch, var(--foreground) 4%, transparent);
+}
+[data-table="minimal"] [data-slot="table"] thead {
+  background-color: transparent;
+}
+[data-table="minimal"] [data-slot="table"] tbody tr {
+  border-color: transparent;
+}
+
+[data-labels="plain"] [class*="font-mono"][class*="uppercase"] {
+  font-family: var(--font-sans);
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+}
+
+/* ---- More component styles. Fills use the brand fill and its AA text pair
+   (--primary-strong / --primary-foreground); brand text uses --primary-ink. ---- */
+
+/* Buttons */
+:is([data-button="elevated"], [data-button="glass"], [data-button="glow"], [data-button="brutal"], [data-button="caps"], [data-button="inset"], [data-button="print"], [data-button="clay"])
+  [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  background-image: none;
+  background-color: var(--primary-strong);
+  color: var(--primary-foreground);
+}
+[data-button="pill"] [data-slot="button"] {
+  border-radius: 9999px;
+}
+/* Ink: the main action is a pill in the text colour (black on light, white on
+   dark) whatever the brand, which stays for the data; other buttons go round to match. */
+[data-button="ink"] [data-slot="button"] {
+  border-radius: 9999px;
+}
+[data-button="ink"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  background-image: none;
+  background-color: var(--foreground);
+  color: var(--card);
+  box-shadow: none;
+}
+[data-button="ink"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]):hover {
+  background-color: color-mix(in oklch, var(--foreground) 84%, var(--card));
+}
+[data-button="elevated"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.12),
+    0 6px 14px -6px color-mix(in oklch, var(--primary-strong) 60%, transparent);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+[data-button="elevated"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]):hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 3px rgb(0 0 0 / 0.12),
+    0 10px 20px -8px color-mix(in oklch, var(--primary-strong) 65%, transparent);
+}
+[data-button="elevated"] [data-slot="button"][data-variant="outline"] {
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 3px 8px -4px rgb(0 0 0 / 0.12);
+}
+[data-button="glass"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  background-color: color-mix(in oklch, var(--primary-strong) 90%, transparent);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  backdrop-filter: blur(10px) saturate(1.4);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.32),
+    inset 0 0 0 1px rgb(255 255 255 / 0.14),
+    0 4px 14px -6px color-mix(in oklch, var(--primary-strong) 55%, transparent);
+}
+[data-button="glass"] [data-slot="button"][data-variant="outline"] {
+  background-color: color-mix(in oklch, var(--card) 60%, transparent);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  backdrop-filter: blur(10px) saturate(1.4);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+}
+[data-button="glow"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--primary) 45%, transparent),
+    0 0 18px -2px color-mix(in oklch, var(--primary) 60%, transparent);
+}
+[data-button="glow"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]):hover {
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--primary) 60%, transparent),
+    0 0 26px 0 color-mix(in oklch, var(--primary) 70%, transparent);
+}
+/* Brutalist: a hard ink edge and an offset block shadow that presses in. */
+[data-button="brutal"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"], [data-variant="outline"], [data-variant="secondary"]) {
+  border: 2px solid var(--foreground);
+  box-shadow: 3px 3px 0 0 var(--foreground);
+  font-weight: 600;
+  transition: transform 80ms ease, box-shadow 80ms ease;
+}
+[data-button="brutal"] [data-slot="button"]:is([data-variant="outline"], [data-variant="secondary"]) {
+  background-color: var(--card);
+  color: var(--foreground);
+}
+[data-button="brutal"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"], [data-variant="outline"], [data-variant="secondary"]):active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 var(--foreground);
+}
+/* Hover lifts it off its block shadow: the opposite of the press. */
+[data-button="brutal"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"], [data-variant="outline"], [data-variant="secondary"]):hover:not(:active) {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 0 var(--foreground);
+}
+[data-button="brutal"] [data-slot="button"]:is([data-variant="outline"], [data-variant="secondary"]):hover:not(:active) {
+  background-color: color-mix(in oklch, var(--foreground) 5%, var(--card));
+}
+/* The filled styles without a hover of their own: the fill steps away from its text colour
+   (darker under white text, lighter under dark text), so contrast only rises on hover. */
+:is([data-button="glass"], [data-button="caps"], [data-button="inset"], [data-button="tactile"], [data-button="brutal"], [data-button="print"], [data-button="clay"])
+  [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]):hover {
+  background-color: color-mix(in oklch, var(--primary-strong) 86%, oklch(from var(--primary-foreground) calc(1 - l) 0 0));
+}
+[data-button="glass"] [data-slot="button"][data-variant="outline"]:hover {
+  background-color: color-mix(in oklch, var(--card) 85%, transparent);
+}
+[data-button="inset"] [data-slot="button"]:is([data-variant="outline"], [data-variant="secondary"]):hover {
+  background-color: color-mix(in srgb, var(--foreground) 9%, var(--card));
+}
+[data-button="caps"] [data-slot="button"]:not([data-variant="link"], [data-variant="ghost"]) {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+[data-button="caps"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  box-shadow: none;
+}
+[data-button="inset"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.28),
+    inset 0 -1px 0 rgb(255 255 255 / 0.12);
+}
+[data-button="inset"] [data-slot="button"]:is([data-variant="outline"], [data-variant="secondary"]) {
+  background-color: color-mix(in srgb, var(--foreground) 5%, var(--card));
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.1);
+}
+
+/* Cards. Shadows add to the theme's effects rather than replacing them. */
+[data-card="elevated"] [data-slot="card"]:not([class*="border-primary"]) {
+  border-color: transparent;
+}
+[data-card="elevated"] [data-slot="card"] {
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--foreground) 4%, transparent),
+    0 1px 2px rgb(0 0 0 / 0.05),
+    0 8px 24px -12px rgb(0 0 0 / 0.2),
+    var(--studio-card-shadow, 0 0 #0000);
+}
+[data-card="sunken"] [data-slot="card"] {
+  background-color: color-mix(in srgb, var(--foreground) 4%, var(--background));
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.06), var(--studio-card-shadow, 0 0 #0000);
+}
+[data-card="sunken"] [data-slot="card"]:not([class*="border-primary"]) {
+  border-color: transparent;
+}
+[data-card="accent-top"] [data-slot="card"]:not([class*="border-primary"]) {
+  border-top: calc(var(--studio-border, 1px) + 2px) solid var(--primary);
+}
+[data-card="accent-left"] [data-slot="card"]:not([class*="border-primary"]) {
+  border-left: calc(var(--studio-border, 1px) + 2px) solid var(--primary);
+}
+[data-card="brutal"] [data-slot="card"]:not([class*="border-primary"]) {
+  border: calc(var(--studio-border, 1px) + 1px) solid var(--foreground);
+}
+[data-card="brutal"] [data-slot="card"] {
+  box-shadow: 4px 4px 0 0 var(--foreground), var(--studio-card-shadow, 0 0 #0000);
+}
+[data-card="glass"] [data-slot="card"] {
+  background-color: color-mix(in oklch, var(--card) 72%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18), var(--studio-card-shadow, 0 0 #0000);
+}
+[data-card="glass"] [data-slot="card"]:not([class*="border-primary"]) {
+  border-color: var(--studio-border-color, color-mix(in oklch, var(--foreground) 12%, transparent));
+}
+[data-card="dashed"] [data-slot="card"]:not([class*="border-primary"]) {
+  border-style: dashed;
+  border-color: var(--studio-border-color, color-mix(in oklch, var(--foreground) 28%, transparent));
+}
+/* Ruled: an editorial page. No box, a rule above each card. */
+[data-card="ruled"] [data-slot="card"]:not([class*="border-primary"]) {
+  border-width: calc(var(--studio-border, 1px) + 0.5px) 0 0;
+  border-color: var(--studio-border-color, color-mix(in oklch, var(--foreground) 70%, transparent));
+  border-radius: 0;
+  background-color: transparent;
+}
+
+/* Inputs */
+[data-input="pill"] :is([data-slot="input"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]) {
+  border-radius: 9999px;
+}
+/* More room at the round ends; an input group keeps its own spacing for icons and units, and a field
+   with a leading icon (its own pl-* padding, e.g. a search box) keeps the room the icon needs. */
+[data-input="pill"] :is([data-slot="input"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"]):not([data-slot="input-group"] *) {
+  padding-right: calc(var(--spacing) * 4);
+}
+[data-input="pill"] :is([data-slot="input"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"]):not([data-slot="input-group"] *):not([class*="pl-"]) {
+  padding-left: calc(var(--spacing) * 4);
+}
+[data-input="pill"] [data-slot="input-group"] {
+  padding-inline: calc(var(--spacing) * 1.5);
+}
+[data-input="pill"] [data-slot="textarea"] {
+  border-radius: 1rem;
+  padding-inline: calc(var(--spacing) * 4);
+}
+[data-input="inset"] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]):not([data-slot="input-group"] *) {
+  background-color: color-mix(in srgb, var(--foreground) 4%, var(--background));
+  border-color: color-mix(in oklch, var(--foreground) 22%, transparent);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.08);
+}
+[data-input="bold"] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]):not([data-slot="input-group"] *) {
+  border-width: 1.5px;
+  border-color: color-mix(in oklch, var(--foreground) 55%, transparent);
+  box-shadow: none;
+}
+/* Brand tint: a pale wash of the brand with a brand line that reads at 3:1. */
+[data-input="soft"] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]):not([data-slot="input-group"] *) {
+  background-color: color-mix(in oklch, var(--primary) 7%, var(--card));
+  border-color: color-mix(in oklch, var(--primary-ink) 55%, transparent);
+  box-shadow: none;
+}
+[data-input="brutal"] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]):not([data-slot="input-group"] *) {
+  border: 2px solid var(--foreground);
+  background-color: var(--card);
+  box-shadow: 3px 3px 0 0 var(--foreground);
+}
+
+/* Every input style keeps the error line on an invalid field, so an error never rests on the message alone. */
+[data-input] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"])[aria-invalid="true"],
+[data-input] [data-slot="input-group"]:has([aria-invalid="true"]) {
+  /* Above every style's own line colour, however specific. */
+  border-color: var(--destructive) !important;
+}
+
+/* Badges. Solid ones fill with the badge's own meaning colour and letter in
+   the card colour: the same pair as the coloured text on a card, so AA holds. */
+[data-badge="solid"] [data-slot="badge"]:not([class*="bg-primary-strong"]) {
+  --badge-solid: var(--foreground);
+  background-color: var(--badge-solid);
+  color: var(--card);
+}
+[data-badge="solid"] [data-slot="badge"][class*="text-diff-add"] { --badge-solid: var(--diff-add); }
+[data-badge="solid"] [data-slot="badge"][class*="text-destructive"] { --badge-solid: var(--destructive); }
+[data-badge="solid"] [data-slot="badge"][class*="text-muted-foreground"] { --badge-solid: var(--muted-foreground); }
+[data-badge="solid"] [data-slot="badge"][class*="text-primary-ink"] { --badge-solid: var(--primary-ink); }
+[data-badge="solid"] [data-slot="badge"][class*="text-warning"] {
+  background-color: var(--warning);
+  color: color-mix(in oklch, var(--warning) 22%, black);
+}
+[data-badge="tag"] [data-slot="badge"] {
+  border-radius: 4px;
+  padding-inline: calc(var(--spacing) * 1.5);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+[data-badge="square"] [data-slot="badge"] {
+  border-radius: 5px;
+}
+
+/* Tables */
+[data-table="grid"] [data-slot="table"] {
+  border-collapse: collapse;
+}
+[data-table="grid"] [data-slot="table"] :is(th, td) {
+  border: 1px solid var(--border);
+}
+[data-table="grid"] [data-slot="table"] tr {
+  border-color: transparent;
+}
+[data-table="spaced"] [data-slot="table"] {
+  border-collapse: separate;
+  border-spacing: 0 6px;
+}
+[data-table="spaced"] [data-slot="table"] thead {
+  background-color: transparent;
+  border-color: transparent;
+}
+[data-table="spaced"] [data-slot="table"] tbody tr {
+  border-color: transparent;
+}
+[data-table="spaced"] [data-slot="table"] tbody td {
+  background-color: color-mix(in oklch, var(--foreground) 4%, transparent);
+}
+[data-table="spaced"] [data-slot="table"] tbody td:first-child {
+  border-radius: var(--radius-md, 8px) 0 0 var(--radius-md, 8px);
+}
+[data-table="spaced"] [data-slot="table"] tbody td:last-child {
+  border-radius: 0 var(--radius-md, 8px) var(--radius-md, 8px) 0;
+}
+[data-table="compact"] [data-slot="table"] :is(th, td) {
+  padding-top: calc(var(--spacing) * 1.5);
+  padding-bottom: calc(var(--spacing) * 1.5);
+}
+[data-table="compact"] [data-slot="table"] td {
+  font-size: 13px;
+}
+[data-table="accent"] [data-slot="table"] thead {
+  background-color: color-mix(in oklch, var(--primary) 10%, var(--card));
+  border-color: color-mix(in oklch, var(--primary) 25%, transparent);
+}
+[data-table="accent"] [data-slot="table"] th {
+  color: var(--foreground);
+}
+
+/* Tabs (the kit's line tabs) */
+[data-tabs="brand"] [data-slot="tabs-list"][data-variant="line"],
+[data-tabs="segmented"] [data-slot="tabs-list"][data-variant="line"] {
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-lg);
+  background-color: var(--muted);
+}
+[data-tabs="brand"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"] {
+  padding-inline: calc(var(--spacing) * 3);
+}
+[data-tabs="brand"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-state="active"] {
+  background-color: var(--primary-strong);
+  color: var(--primary-foreground);
+}
+/* Segmented: equal segments, however long each label, like a native segmented control. */
+[data-tabs="segmented"] [data-slot="tabs-list"][data-variant="line"] {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+[data-tabs="segmented"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"] {
+  padding-inline: calc(var(--spacing) * 4);
+  border-radius: calc(var(--radius-lg) - 3px);
+}
+[data-tabs="segmented"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-state="active"] {
+  background-color: var(--card);
+  color: var(--foreground);
+  border-color: var(--border);
+  box-shadow: 0 1px 2px color-mix(in oklch, var(--foreground) 10%, transparent);
+}
+[data-tabs="bold"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"]::after {
+  height: 3px;
+  border-radius: 3px;
+  background-color: var(--primary-ink);
+}
+[data-tabs="bold"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-state="active"] {
+  color: var(--foreground);
+  font-weight: 600;
+}
+/* Folder: the active tab joins the panel below, like a file tab. */
+[data-tabs="folder"] [data-slot="tabs-list"][data-variant="line"] {
+  gap: 2px;
+  height: auto;
+  padding: 0;
+  border-bottom: 1px solid var(--border);
+}
+[data-tabs="folder"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"] {
+  flex: 0 0 auto;
+  padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 3.5);
+  margin-bottom: -1px;
+  border-radius: var(--radius-md, 8px) var(--radius-md, 8px) 0 0;
+  border-color: transparent;
+}
+[data-tabs="folder"] [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"][data-state="active"] {
+  background-color: var(--card);
+  color: var(--foreground);
+  border-color: var(--border);
+  border-bottom-color: var(--card);
+}
+:is([data-tabs="brand"], [data-tabs="segmented"], [data-tabs="folder"]) [data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"]::after {
+  display: none;
+}
+
+/* Labels (the mono caps eyebrows) */
+[data-labels="caps"] [class*="font-mono"][class*="uppercase"] {
+  font-family: var(--font-sans);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+[data-labels="brand"] [class*="font-mono"][class*="uppercase"] {
+  color: var(--primary-ink);
+}
+[data-labels="italic"] [class*="font-mono"][class*="uppercase"] {
+  font-family: var(--font-heading);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 0.95em;
+}
+
+/* Switches */
+[data-switch="square"] [data-slot="switch"] {
+  border-radius: 6px;
+}
+[data-switch="square"] [data-slot="switch-thumb"] {
+  border-radius: 4px;
+}
+[data-switch="large"] [data-slot="switch"] {
+  width: calc(var(--spacing) * 11);
+  height: calc(var(--spacing) * 6);
+}
+[data-switch="large"] [data-slot="switch-thumb"] {
+  width: calc(var(--spacing) * 5);
+  height: calc(var(--spacing) * 5);
+}
+/* The kit moves the thumb with the translate property (Tailwind 4), so these set that too. */
+[data-switch="large"] [data-slot="switch-thumb"][data-state="checked"] {
+  translate: calc(var(--spacing) * 6 - 4px) 0;
+}
+/* Slim: a thin track with the thumb riding over its ends, the thumb's ring
+   keeping it visible on any page (3:1 for the control). */
+[data-switch="slim"] [data-slot="switch"] {
+  height: calc(var(--spacing) * 3.5);
+  overflow: visible;
+}
+[data-switch="slim"] [data-slot="switch"][data-state="checked"] {
+  background-color: color-mix(in oklch, var(--primary) 50%, transparent);
+}
+[data-switch="slim"] [data-slot="switch"][data-state="unchecked"] {
+  background-color: color-mix(in oklch, var(--foreground) 28%, transparent);
+}
+[data-switch="slim"] [data-slot="switch-thumb"] {
+  width: calc(var(--spacing) * 5);
+  height: calc(var(--spacing) * 5);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--foreground) 22%, transparent), 0 1px 3px rgb(0 0 0 / 0.3);
+}
+[data-switch="slim"] [data-slot="switch-thumb"][data-state="unchecked"] {
+  translate: -3px 0;
+  background-color: var(--card);
+}
+[data-switch="slim"] [data-slot="switch-thumb"][data-state="checked"] {
+  translate: calc(var(--spacing) * 4 + 1px) 0;
+  background-color: var(--primary-strong);
+}
+
+/* Checkboxes */
+[data-checkbox="square"] [data-slot="checkbox"] {
+  border-radius: 2px;
+}
+[data-checkbox="circle"] [data-slot="checkbox"] {
+  border-radius: 9999px;
+}
+[data-checkbox="soft"] [data-slot="checkbox"]:is([data-state="checked"], [data-state="indeterminate"]) {
+  background-color: color-mix(in oklch, var(--primary) 16%, var(--card));
+  border-color: var(--primary-ink);
+  color: var(--primary-ink);
+}
+
+/* Progress bars */
+[data-progress="thin"] [data-slot="progress"] {
+  height: 4px;
+}
+[data-progress="thick"] [data-slot="progress"] {
+  height: 12px;
+}
+[data-progress="square"] :is([data-slot="progress"], [data-slot="progress-indicator"]) {
+  border-radius: 2px;
+}
+[data-progress="striped"] [data-slot="progress"] {
+  height: 10px;
+}
+[data-progress="striped"] [data-slot="progress-indicator"] {
+  background-image: repeating-linear-gradient(-45deg, rgb(255 255 255 / 0.3) 0 6px, transparent 6px 12px);
+}
+/* Segments and ticks cut the whole bar (track and fill alike) into pieces. */
+[data-progress="segments"] [data-slot="progress"] {
+  height: 8px;
+  border-radius: 2px;
+  -webkit-mask-image: repeating-linear-gradient(90deg, #000 0 calc(10% - 3px), transparent calc(10% - 3px) 10%);
+  mask-image: repeating-linear-gradient(90deg, #000 0 calc(10% - 3px), transparent calc(10% - 3px) 10%);
+}
+[data-progress="segments"] [data-slot="progress-indicator"] {
+  border-radius: 0;
+}
+[data-progress="ticks"] [data-slot="progress"] {
+  height: 14px;
+  border-radius: 0;
+  -webkit-mask-image: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px 5px);
+  mask-image: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px 5px);
+}
+[data-progress="ticks"] [data-slot="progress-indicator"] {
+  border-radius: 0;
+}
+
+/* Menus, popovers, selects' lists, dialogs and drawers */
+[data-menus="elevated"] :is([data-slot="popover-content"], [data-slot="dropdown-menu-content"], [data-slot="select-content"], [data-slot="context-menu-content"], [data-slot="hover-card-content"], [data-slot="dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="drawer-content"]) {
+  border-color: transparent;
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--foreground) 6%, transparent),
+    0 2px 4px rgb(0 0 0 / 0.06),
+    0 20px 44px -14px rgb(0 0 0 / 0.32);
+}
+[data-menus="bordered"] :is([data-slot="popover-content"], [data-slot="dropdown-menu-content"], [data-slot="select-content"], [data-slot="context-menu-content"], [data-slot="hover-card-content"], [data-slot="dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="drawer-content"]) {
+  border: 1px solid color-mix(in oklch, var(--foreground) 22%, transparent);
+  box-shadow: none;
+}
+[data-menus="brutal"] :is([data-slot="popover-content"], [data-slot="dropdown-menu-content"], [data-slot="select-content"], [data-slot="context-menu-content"], [data-slot="hover-card-content"], [data-slot="dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="drawer-content"]) {
+  border: 2px solid var(--foreground);
+  box-shadow: 5px 5px 0 0 var(--foreground);
+}
+[data-menus="glass"] :is([data-slot="popover-content"], [data-slot="dropdown-menu-content"], [data-slot="select-content"], [data-slot="context-menu-content"], [data-slot="hover-card-content"], [data-slot="dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="drawer-content"]) {
+  background-color: color-mix(in oklch, var(--card) 80%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+  border-color: color-mix(in oklch, var(--foreground) 12%, transparent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.16), 0 16px 40px -16px rgb(0 0 0 / 0.35);
+}
+
+:root[data-menus="flat"] :is([data-slot="popover-content"], [data-slot="dropdown-menu-content"], [data-slot="select-content"], [data-slot="context-menu-content"], [data-slot="hover-card-content"], [data-slot="dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="drawer-content"]) {
+  background-color: color-mix(in oklch, var(--foreground) 3%, var(--card));
+  border: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+  box-shadow: none;
+}
+:root[data-menus="accent"] :is([data-slot="popover-content"], [data-slot="dropdown-menu-content"], [data-slot="select-content"], [data-slot="context-menu-content"], [data-slot="hover-card-content"], [data-slot="dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="drawer-content"]) {
+  border-top: 3px solid var(--primary);
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--foreground) 6%, transparent),
+    0 12px 32px -14px rgb(0 0 0 / 0.24);
+}
+/* Inverse: menus, lists and popovers in the opposite mode (dark on a light
+   page), dialogs left as they are. The page's own colours are read on <html>
+   first, so the swap inside a menu doesn't refer to itself. */
+[data-menus="inverse"] {
+  --inverse-bg: var(--foreground);
+  --inverse-fg: var(--background);
+  /* Danger text lightened toward the page colour, so "Delete" reads on the dark menu. */
+  --inverse-danger: color-mix(in oklch, var(--destructive) 55%, var(--background));
+}
+[data-menus="inverse"] :is([data-slot="popover-content"], [data-slot="dropdown-menu-content"], [data-slot="select-content"], [data-slot="context-menu-content"], [data-slot="hover-card-content"]) {
+  --background: var(--inverse-bg);
+  --foreground: var(--inverse-fg);
+  --card: var(--inverse-bg);
+  --card-foreground: var(--inverse-fg);
+  --popover: var(--inverse-bg);
+  --popover-foreground: var(--inverse-fg);
+  --muted: color-mix(in oklch, var(--inverse-fg) 10%, var(--inverse-bg));
+  --muted-foreground: color-mix(in oklch, var(--inverse-fg) 70%, var(--inverse-bg));
+  --accent: color-mix(in oklch, var(--inverse-fg) 13%, var(--inverse-bg));
+  --accent-foreground: var(--inverse-fg);
+  --border: color-mix(in oklch, var(--inverse-fg) 16%, transparent);
+  --input: color-mix(in oklch, var(--inverse-fg) 22%, transparent);
+  --primary-ink: color-mix(in oklch, var(--primary) 55%, var(--inverse-fg));
+  --destructive: var(--inverse-danger);
+  background-color: var(--inverse-bg);
+  color: var(--inverse-fg);
+  border-color: transparent;
+  box-shadow: 0 16px 40px -16px rgb(0 0 0 / 0.4);
+}
+
+/* Inputs: frosted glass and a lifted field (a hairline ring and a soft,
+   layered lift, never a heavy shadow). */
+[data-input="glass"] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]):not([data-slot="input-group"] *) {
+  background-color: color-mix(in oklch, var(--card) 62%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  backdrop-filter: blur(12px) saturate(1.4);
+  border-color: color-mix(in oklch, var(--foreground) 16%, transparent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18);
+}
+[data-input="lifted"] :is([data-slot="input"], [data-slot="textarea"], [data-slot="select-trigger"], [data-slot="combobox-trigger"], [data-slot="date-trigger"], [data-slot="input-group"]):not([data-slot="input-group"] *) {
+  background-color: var(--card);
+  border-color: transparent;
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--foreground) 12%, transparent),
+    0 1px 2px rgb(0 0 0 / 0.05),
+    0 3px 8px -3px rgb(0 0 0 / 0.08);
+}
+
+/* Badges: coloured text alone, ink with a meaning dot, brutalist. */
+[data-badge="text"] [data-slot="badge"]:not([class*="bg-primary-strong"]) {
+  background-color: transparent;
+  border-color: transparent;
+  padding-inline: 0;
+  font-weight: 600;
+}
+[data-badge="ink"] [data-slot="badge"]:not([class*="bg-primary-strong"]) {
+  --badge-dot: var(--primary);
+  gap: 6px;
+  background-color: var(--foreground);
+  border-color: transparent;
+  color: var(--background);
+}
+[data-badge="ink"] [data-slot="badge"]:not([class*="bg-primary-strong"])::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 9999px;
+  background-color: var(--badge-dot);
+}
+[data-badge="ink"] [data-slot="badge"][class*="text-diff-add"] { --badge-dot: var(--diff-add); }
+[data-badge="ink"] [data-slot="badge"][class*="text-destructive"] { --badge-dot: var(--destructive); }
+[data-badge="ink"] [data-slot="badge"][class*="text-warning"] { --badge-dot: var(--warning); }
+[data-badge="ink"] [data-slot="badge"][class*="text-muted-foreground"] { --badge-dot: color-mix(in oklch, var(--background) 55%, var(--foreground)); }
+[data-badge="brutal"] [data-slot="badge"]:not([class*="bg-primary-strong"]) {
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  background-color: var(--card);
+  box-shadow: 2px 2px 0 0 currentColor;
+  font-weight: 600;
+}
+
+/* Switches: outline, a tick in the thumb, an inset track. */
+[data-switch="outline"] [data-slot="switch"] {
+  border: 1.5px solid color-mix(in oklch, var(--foreground) 40%, transparent);
+}
+[data-switch="outline"] [data-slot="switch"][data-state="unchecked"] {
+  background-color: transparent;
+}
+[data-switch="outline"] [data-slot="switch"][data-state="checked"] {
+  border-color: var(--primary);
+}
+[data-switch="outline"] [data-slot="switch-thumb"] {
+  width: calc(var(--spacing) * 3.5);
+  height: calc(var(--spacing) * 3.5);
+  box-shadow: none;
+}
+[data-switch="outline"] [data-slot="switch-thumb"][data-state="unchecked"] {
+  background-color: color-mix(in oklch, var(--foreground) 55%, transparent);
+}
+[data-switch="check"] [data-slot="switch-thumb"] {
+  display: grid;
+  place-items: center;
+}
+[data-switch="check"] [data-slot="switch-thumb"][data-state="checked"]::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary-strong);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+[data-switch="check"] [data-slot="switch-thumb"][data-state="checked"] {
+  background-color: var(--card);
+}
+[data-switch="inset"] [data-slot="switch"] {
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.18);
+}
+[data-switch="inset"] [data-slot="switch"][data-state="unchecked"] {
+  background-color: color-mix(in oklch, var(--foreground) 14%, var(--background));
+}
+[data-switch="inset"] [data-slot="switch-thumb"] {
+  background-color: var(--card);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 0 0 0.5px rgb(0 0 0 / 0.08);
+}
+
+/* Checkboxes: an outline tick, a bold border, brutalist. */
+[data-checkbox="outline"] [data-slot="checkbox"] {
+  border-width: 1.5px;
+}
+[data-checkbox="outline"] [data-slot="checkbox"]:is([data-state="checked"], [data-state="indeterminate"]) {
+  background-color: var(--card);
+  border-color: var(--primary-ink);
+  color: var(--primary-ink);
+}
+[data-checkbox="bold"] [data-slot="checkbox"] {
+  border-width: 2px;
+  border-radius: 4px;
+}
+[data-checkbox="bold"] [data-slot="checkbox"][data-state="unchecked"] {
+  border-color: color-mix(in oklch, var(--foreground) 55%, transparent);
+}
+[data-checkbox="brutal"] [data-slot="checkbox"] {
+  border: 2px solid var(--foreground);
+  border-radius: 0;
+  box-shadow: 2px 2px 0 0 var(--foreground);
+}
+[data-checkbox="brutal"] [data-slot="checkbox"]:is([data-state="checked"], [data-state="indeterminate"]) {
+  background-color: var(--primary-strong);
+}
+
+/* Radio buttons */
+[data-radio="ring"] [data-slot="radio-group-item"][data-state="checked"] {
+  border-width: 5px;
+  border-color: var(--primary);
+  background-color: var(--card);
+}
+[data-radio="ring"] [data-slot="radio-indicator"] {
+  display: none;
+}
+[data-radio="solid"] [data-slot="radio-group-item"][data-state="checked"] {
+  border-color: var(--primary-strong);
+  background-color: var(--primary-strong);
+}
+[data-radio="solid"] [data-slot="radio-indicator"] {
+  background-color: var(--primary-foreground);
+  width: 6px;
+  height: 6px;
+}
+[data-radio="soft"] [data-slot="radio-group-item"][data-state="checked"] {
+  border-color: var(--primary-ink);
+  background-color: color-mix(in oklch, var(--primary) 16%, var(--card));
+}
+[data-radio="soft"] [data-slot="radio-indicator"] {
+  background-color: var(--primary-ink);
+}
+[data-radio="square"] [data-slot="radio-group-item"] {
+  border-radius: 4px;
+}
+[data-radio="square"] [data-slot="radio-indicator"] {
+  border-radius: 2px;
+}
+
+/* Sliders */
+[data-slider="thin"] [data-slot="slider-track"] {
+  height: 3px;
+}
+[data-slider="thin"] [data-slot="slider-thumb"] {
+  width: 14px;
+  height: 14px;
+  border: 0;
+  background-color: var(--primary-strong);
+  box-shadow: 0 0 0 3px var(--card), 0 1px 3px rgb(0 0 0 / 0.25);
+}
+[data-slider="thick"] [data-slot="slider-track"] {
+  height: 10px;
+}
+[data-slider="thick"] [data-slot="slider-thumb"] {
+  width: 22px;
+  height: 22px;
+  border-width: 3px;
+}
+[data-slider="square"] :is([data-slot="slider-track"], [data-slot="slider-range"]) {
+  border-radius: 2px;
+}
+[data-slider="square"] [data-slot="slider-thumb"] {
+  border-radius: 4px;
+}
+[data-slider="bar"] [data-slot="slider-track"] {
+  height: 8px;
+  border-radius: 3px;
+}
+[data-slider="bar"] [data-slot="slider-range"] {
+  border-radius: 3px;
+}
+/* A light handle with a dark rim: it reads on the filled part and on the track alike. */
+[data-slider="bar"] [data-slot="slider-thumb"] {
+  width: 8px;
+  height: 24px;
+  border: 1.5px solid var(--foreground);
+  border-radius: 3px;
+  background-color: var(--card);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+}
+
+/* Filter and choice chips. On: aria-pressed, aria-checked or the Chip's data-selected. */
+[data-chips="soft"] [data-slot="chip"] {
+  border-color: transparent;
+  background-color: color-mix(in oklch, var(--foreground) 6%, var(--card));
+  color: var(--foreground);
+}
+[data-chips="soft"] [data-slot="chip"]:is([aria-pressed="true"], [aria-checked="true"], [data-selected="true"]) {
+  background-color: color-mix(in oklch, var(--primary) 15%, var(--card));
+  color: var(--primary-ink);
+  font-weight: 500;
+}
+[data-chips="solid"] [data-slot="chip"]:is([aria-pressed="true"], [aria-checked="true"], [data-selected="true"]) {
+  border-color: var(--primary-strong);
+  background-color: var(--primary-strong);
+  color: var(--primary-foreground);
+}
+[data-chips="square"] [data-slot="chip"] {
+  border-radius: 6px;
+}
+[data-chips="ink"] [data-slot="chip"]:is([aria-pressed="true"], [aria-checked="true"], [data-selected="true"]) {
+  border-color: var(--foreground);
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
+/* Tooltips */
+[data-tooltip="light"] [data-slot="tooltip-content"] {
+  background-color: var(--popover, var(--card));
+  color: var(--foreground);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--foreground) 10%, transparent), 0 6px 16px -6px rgb(0 0 0 / 0.2);
+}
+[data-tooltip="light"] [data-slot="tooltip-arrow"] {
+  fill: var(--popover, var(--card));
+}
+[data-tooltip="brand"] [data-slot="tooltip-content"] {
+  background-color: var(--primary-strong);
+  color: var(--primary-foreground);
+}
+[data-tooltip="brand"] [data-slot="tooltip-arrow"] {
+  fill: var(--primary-strong);
+}
+[data-tooltip="bordered"] [data-slot="tooltip-content"] {
+  background-color: var(--card);
+  color: var(--foreground);
+  border: 1px solid color-mix(in oklch, var(--foreground) 24%, transparent);
+  box-shadow: none;
+}
+[data-tooltip="bordered"] [data-slot="tooltip-arrow"] {
+  display: none;
+}
+
+/* Notices: the kit's alerts and the composed cards' callouts. Each keeps its
+   meaning icon or edge, so colour is never the only signal. */
+[data-slot="alert"] {
+  --notice: var(--primary);
+}
+[data-slot="alert"][data-variant="success"] { --notice: var(--diff-add); }
+[data-slot="alert"][data-variant="warning"] { --notice: var(--warning-foreground, var(--warning)); }
+[data-slot="alert"][data-variant="error"] { --notice: var(--destructive); }
+[data-notices="outlined"] [data-slot="alert"] {
+  background-color: var(--card);
+  border-color: color-mix(in oklch, var(--notice) 60%, transparent);
+}
+[data-notices="outlined"] [data-slot="callout"] {
+  /* Width and style only: the tone's colour stays. */
+  border-width: 1px;
+  border-style: solid;
+  border-radius: calc(var(--radius) - 2px);
+  background-color: var(--card);
+}
+/* [data-variant] lifts it over the Border width rule, which would make the edge 1px. */
+[data-notices="edge"] [data-slot="alert"][data-variant] {
+  border: 0;
+  border-left: 3px solid var(--notice);
+  border-radius: 4px;
+  background-color: color-mix(in oklch, var(--foreground) 4%, var(--card));
+}
+[data-notices="edge"] [data-slot="callout"] {
+  border-left-width: 3px;
+}
+[data-notices="plain"] [data-slot="alert"] {
+  border-color: transparent;
+  background-color: transparent;
+  padding-inline: 0;
+}
+[data-notices="plain"] [data-slot="callout"] {
+  background-color: transparent;
+}
+
+/*
+  App shell (frames.tsx): the top bar's style (data-topbar) and how the
+  sidebar meets the page (data-sidebar-edge), both on the app frame. Top bars
+  carry data-bar, the sidebar and inset layouts' sidebars data-sidebar.
+*/
+[data-topbar="plain"] [data-bar] {
+  border-bottom-color: transparent;
+  background-color: transparent;
+}
+/* A board page (the canvas is the page) has no top bar over it; a bar that carries the navigation stays. */
+[data-slot="app-frame"][data-page="board"] [data-bar]:not([data-slot="app-nav"]) {
+  display: none;
+}
+/* Frosted: stays on top while the page scrolls under it. */
+[data-topbar="blur"] [data-bar] {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background-color: color-mix(in oklch, var(--card) 72%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.6);
+  backdrop-filter: blur(14px) saturate(1.6);
+  border-bottom-color: color-mix(in oklch, var(--foreground) 8%, transparent);
+}
+/* The brand fill and its AA text, the same pair as the brand sidebar. */
+[data-topbar="brand"] [data-bar] {
+  --background: var(--studio-brand-fill);
+  --card: var(--studio-brand-fill);
+  --card-foreground: var(--studio-brand-text);
+  --foreground: var(--studio-brand-text);
+  --primary-ink: var(--studio-brand-text);
+  --primary: var(--studio-brand-text);
+  --primary-strong: var(--studio-brand-text);
+  --primary-foreground: var(--studio-brand-fill);
+  --muted: color-mix(in oklch, var(--studio-brand-text) 14%, transparent);
+  --muted-foreground: color-mix(in oklch, var(--studio-brand-text) 76%, transparent);
+  --border: color-mix(in oklch, var(--studio-brand-text) 20%, transparent);
+  --input: color-mix(in oklch, var(--studio-brand-text) 26%, transparent);
+  background-color: var(--studio-brand-fill);
+  color: var(--studio-brand-text);
+  border-bottom-color: transparent;
+}
+[data-topbar="inverse"] [data-bar] {
+  --background: #0a0a0f;
+  --card: #111118;
+  --card-foreground: #ededf2;
+  --foreground: #ededf2;
+  --muted: #1b1b24;
+  --muted-foreground: #9a9aaa;
+  --border: #262633;
+  --input: #2e2e3d;
+  --primary-ink: color-mix(in oklch, var(--primary) 50%, #ededf2);
+  color-scheme: dark;
+  background-color: #0a0a0f;
+  color: #ededf2;
+  border-bottom-color: transparent;
+}
+/* Floating: a rounded bar inset from the edges, lifted a little, never a heavy shadow. */
+[data-topbar="float"] [data-bar] {
+  position: sticky;
+  top: 8px;
+  z-index: 30;
+  margin: 8px 12px 0;
+  border: 1px solid color-mix(in oklch, var(--foreground) 10%, transparent);
+  border-radius: max(12px, var(--radius));
+  background-color: color-mix(in oklch, var(--card) 88%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -12px rgb(0 0 0 / 0.14);
+}
+
+/* In the inset layout the bar is the top of the rounded page panel: it takes the panel's corners. */
+[data-topbar] [data-slot="page-panel"] > [data-bar] {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+[data-topbar="float"] [data-slot="page-panel"] > [data-bar] {
+  border-radius: max(12px, var(--radius));
+}
+
+[data-sidebar-edge="none"] [data-sidebar] {
+  border-right-color: transparent;
+}
+[data-sidebar-edge="shadow"] [data-sidebar] {
+  z-index: 20;
+  border-right-color: transparent;
+  box-shadow: 1px 0 0 color-mix(in oklch, var(--foreground) 5%, transparent), 10px 0 30px -18px rgb(0 0 0 / 0.18);
+}
+/* Floating: the sidebar as its own rounded panel, inset from the window's edges. */
+[data-sidebar-edge="float"] [data-sidebar] {
+  top: 8px;
+  height: calc(100dvh - 16px);
+  margin: 8px 0 8px 8px;
+  border: 1px solid color-mix(in oklch, var(--foreground) 9%, transparent);
+  border-radius: max(14px, var(--radius));
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 10px 28px -16px rgb(0 0 0 / 0.16);
+}
+/* A sidebar with no fill of its own (the inset layout's) gets the card, so it reads as a panel. */
+[data-sidebar-edge="float"] [data-sidebar]:not([style*="background"]):not([class*="bg-"]) {
+  background-color: var(--card);
+}
+
+/* Stat panels take an accent each (--stat-accent, set per panel). On coloured card
+   tones (pastel, candy, vivid…) the card already carries the colour: the accent
+   falls back to the card's own text colour, which is the one that reads there. */
+[data-tones] [data-stat-row] > [data-slot="card"],
+[data-look-emphasis="brand"] > [data-stat-row] > :first-child,
+[data-stat-row] > [data-card-tone] {
+  --stat-accent: currentColor !important;
+}
+
+/* Compact density: four stat tiles fit in one row once the section is wide enough. */
+@container (min-width: 44rem) {
+  [data-density="compact"] [data-stat-row="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/*
+  Theme effects (GliaKit Studio), set on <html>:
+  data-effects — visible card effects, combinable ("drop inner glass")
+  data-backdrop — what sits behind the page, scaled by --studio-backdrop (1 = as designed),
+    its colours replaced by --studio-bd-1…4 when the theme picks its own
+  The effect values themselves are --studio-card-* variables, stacked into
+  one shadow / filter / texture each, so effects add up instead of
+  overriding one another. Without these attributes GliaKit renders as designed.
+*/
+:is(
+    [data-effects~="drop"],
+    [data-effects~="float"],
+    [data-effects~="tint"],
+    [data-effects~="ledge"],
+    [data-effects~="offset"],
+    [data-effects~="ring"],
+    [data-effects~="inner"],
+    [data-effects~="bevel"],
+    [data-effects~="glow"],
+    [data-effects~="glass"]
+  )
+  :is([data-slot="card"], [data-slot="app-nav"]) {
+  box-shadow: var(--studio-card-shadow);
+}
+:is([data-effects~="inner"], [data-effects~="sheen"], [data-effects~="spot"], [data-effects~="noise"]) :is([data-slot="card"], [data-slot="app-nav"]) {
+  background-image: var(--studio-card-texture);
+}
+[data-effects~="glass"] :is([data-slot="card"], [data-slot="app-nav"]) {
+  background-color: var(--studio-card-bg);
+  -webkit-backdrop-filter: var(--studio-card-filter);
+  backdrop-filter: var(--studio-card-filter);
+}
+/* Highlighted cards (e.g. the popular plan) keep their brand border. Card
+   styles mix their own line colour unless the theme sets --studio-border-color. */
+[data-effects~="glass"] :is([data-slot="card"], [data-slot="app-nav"]):not([class*="border-primary"]) {
+  border-color: var(--studio-border-color, color-mix(in oklch, var(--foreground) 12%, transparent));
+}
+
+/* Bare sections (Studio's Bare frame): the block's card drops its frame,
+   fill, effects and side padding, so strips, galleries and collections sit
+   straight on the page. Nested cards inside the block keep theirs. */
+[data-surface="bare"] > [data-slot="card"] {
+  border-color: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+[data-surface="bare"] > [data-slot="card"] > * {
+  padding-inline: 0;
+}
+
+/* Section looks (Studio's Look frame). Emphasis re-colours the section's card,
+   or a stat row's lead stat, by re-scoping the theme tokens on it, so
+   everything inside (text, buttons, charts) follows and contrast holds:
+   tinted = a wash of the brand; brand = filled with the brand, its text the
+   brand fill's own AA text colour; inverse = the opposite mode to the page. */
+[data-look-emphasis="tinted"] > [data-slot="card"]:not([data-stat-row]),
+[data-look-emphasis="tinted"] > [data-stat-row] > :first-child,
+[data-card-tone="tinted"] {
+  background-color: color-mix(in oklch, var(--primary) 9%, var(--card)) !important;
+  border-color: color-mix(in oklch, var(--primary) 30%, transparent) !important;
+}
+/* The theme's lead fill (data-lead on <html>) re-routes the page's filled card:
+   brand or gradient turn an inverse moment into the brand, ink turns a brand one inverse. */
+:root:not([data-lead="ink"]) [data-look-emphasis="brand"] > [data-slot="card"]:not([data-stat-row]),
+:root:not([data-lead="ink"]) [data-look-emphasis="brand"] > [data-stat-row] > :first-child,
+:is([data-lead="brand"], [data-lead="gradient"]) [data-look-emphasis="inverse"] > [data-slot="card"]:not([data-stat-row]),
+:is([data-lead="brand"], [data-lead="gradient"]) [data-look-emphasis="inverse"] > [data-stat-row] > :first-child,
+[data-card-tone="brand"] {
+  --card: var(--studio-brand-fill);
+  --card-foreground: var(--studio-brand-text);
+  --foreground: var(--studio-brand-text);
+  --muted-foreground: var(--studio-brand-text);
+  --muted: color-mix(in oklch, var(--studio-brand-text) 14%, transparent);
+  --secondary: color-mix(in oklch, var(--studio-brand-text) 14%, transparent);
+  --secondary-foreground: var(--studio-brand-text);
+  --accent: color-mix(in oklch, var(--studio-brand-text) 14%, transparent);
+  --border: color-mix(in oklch, var(--studio-brand-text) 24%, transparent);
+  --input: color-mix(in oklch, var(--studio-brand-text) 30%, transparent);
+  --primary: var(--studio-brand-text);
+  --primary-mark: var(--studio-brand-text);
+  --primary-ink: var(--studio-brand-text);
+  --primary-strong: var(--studio-brand-text);
+  --primary-foreground: var(--studio-brand-fill);
+  --highlight: var(--studio-brand-text);
+  --chart-from: var(--studio-brand-text);
+  --chart-to: color-mix(in oklch, var(--studio-brand-text) 70%, var(--studio-brand-fill));
+  --ring: var(--studio-brand-text);
+  --chart-1: var(--studio-brand-text);
+  --chart-2: color-mix(in oklch, var(--studio-brand-text) 70%, var(--studio-brand-fill));
+  --chart-3: color-mix(in oklch, var(--studio-brand-text) 50%, var(--studio-brand-fill));
+  --diff-add: var(--studio-brand-text);
+  --destructive: var(--studio-brand-text);
+  --warning-foreground: var(--studio-brand-text);
+  background-color: var(--studio-brand-fill) !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  color: var(--studio-brand-text);
+}
+.light:not([data-lead="brand"]):not([data-lead="gradient"]):not([data-lead="glow"]) [data-look-emphasis="inverse"] > [data-slot="card"]:not([data-stat-row]),
+.light:not([data-lead="brand"]):not([data-lead="gradient"]):not([data-lead="glow"]) [data-look-emphasis="inverse"] > [data-stat-row] > :first-child,
+.light[data-lead="ink"] [data-look-emphasis="brand"] > [data-slot="card"]:not([data-stat-row]),
+.light[data-lead="ink"] [data-look-emphasis="brand"] > [data-stat-row] > :first-child,
+.light [data-card-tone="inverse"] {
+  --background: #0a0a0f;
+  --foreground: #ededf2;
+  --card: #111118;
+  --card-foreground: #ededf2;
+  --popover: #111118;
+  --popover-foreground: #ededf2;
+  --secondary: #1a1a24;
+  --secondary-foreground: #ededf2;
+  --muted: #16161e;
+  --muted-foreground: #8a8a99;
+  --accent: #1a1a24;
+  --accent-foreground: #ededf2;
+  --border: #2a2a36;
+  --input: #2a2a36;
+  --destructive: #f8717a;
+  --warning-foreground: #fbbf24;
+  --diff-add: #4ade80;
+  --chart-1: var(--chart-1-dark, #7c5cff);
+  --chart-2: var(--chart-2-dark, #22d3ee);
+  --chart-3: var(--chart-3-dark, #fb923c);
+  --chart-4: var(--chart-4-dark, #e879f9);
+  --chart-5: var(--chart-5-dark, #2dd4bf);
+  --chart-from: var(--chart-1);
+  --chart-to: var(--chart-1);
+  --primary-ink: var(--studio-ink-dark);
+  /* Buttons in the dark card take the brand as it reads on dark (a near-black brand would vanish here). */
+  --primary: var(--studio-ink-dark);
+  --primary-mark: var(--studio-ink-dark);
+  --primary-strong: var(--studio-ink-dark);
+  --primary-foreground: #0a0a0f;
+  --ring: var(--studio-ink-dark);
+  color-scheme: dark;
+}
+.dark:not([data-lead="brand"]):not([data-lead="gradient"]):not([data-lead="glow"]) [data-look-emphasis="inverse"] > [data-slot="card"]:not([data-stat-row]),
+.dark:not([data-lead="brand"]):not([data-lead="gradient"]):not([data-lead="glow"]) [data-look-emphasis="inverse"] > [data-stat-row] > :first-child,
+.dark[data-lead="ink"] [data-look-emphasis="brand"] > [data-slot="card"]:not([data-stat-row]),
+.dark[data-lead="ink"] [data-look-emphasis="brand"] > [data-stat-row] > :first-child,
+.dark [data-card-tone="inverse"] {
+  --background: #f4f4f8;
+  --foreground: #14141b;
+  --card: #ffffff;
+  --card-foreground: #14141b;
+  --popover: #ffffff;
+  --popover-foreground: #14141b;
+  --secondary: #ececf1;
+  --secondary-foreground: #14141b;
+  --muted: #ececf2;
+  --muted-foreground: #5c5c6b;
+  --accent: #ececf1;
+  --accent-foreground: #14141b;
+  --border: #e3e3ea;
+  --input: #e3e3ea;
+  --destructive: #b91c1c;
+  --warning-foreground: #a14a07;
+  --diff-add: #166534;
+  --chart-1: var(--chart-1-light, #7c5cff);
+  --chart-2: var(--chart-2-light, #0891b2);
+  --chart-3: var(--chart-3-light, #ea580c);
+  --chart-4: var(--chart-4-light, #c026d3);
+  --chart-5: var(--chart-5-light, #0f766e);
+  --chart-from: var(--chart-1);
+  --chart-to: var(--chart-1);
+  --primary-ink: var(--studio-ink-light);
+  /* Buttons in the light card take the brand as it reads on light (a pale brand would vanish here). */
+  --primary: var(--studio-ink-light);
+  --primary-mark: var(--studio-ink-light);
+  --primary-strong: var(--studio-ink-light);
+  --primary-foreground: #ffffff;
+  --ring: var(--studio-ink-light);
+  color-scheme: light;
+}
+.light:not([data-lead="brand"]):not([data-lead="gradient"]):not([data-lead="glow"]) [data-look-emphasis="inverse"] > [data-slot="card"]:not([data-stat-row]),
+.light:not([data-lead="brand"]):not([data-lead="gradient"]):not([data-lead="glow"]) [data-look-emphasis="inverse"] > [data-stat-row] > :first-child,
+.dark:not([data-lead="brand"]):not([data-lead="gradient"]):not([data-lead="glow"]) [data-look-emphasis="inverse"] > [data-slot="card"]:not([data-stat-row]),
+.dark:not([data-lead="brand"]):not([data-lead="gradient"]):not([data-lead="glow"]) [data-look-emphasis="inverse"] > [data-stat-row] > :first-child,
+[data-lead="ink"] [data-look-emphasis="brand"] > [data-slot="card"]:not([data-stat-row]),
+[data-lead="ink"] [data-look-emphasis="brand"] > [data-stat-row] > :first-child,
+[data-card-tone="inverse"] {
+  background-color: var(--card) !important;
+  background-image: none !important;
+  border-color: var(--border) !important;
+  color: var(--foreground);
+}
+/* Gradient lead: the brand fill sweeps to a neighbouring hue at the same lightness,
+   so the brand fill's own AA text colour still reads across it. */
+:root[data-lead="gradient"] :is([data-look-emphasis="brand"], [data-look-emphasis="inverse"]) > [data-slot="card"]:not([data-stat-row]),
+:root[data-lead="gradient"] :is([data-look-emphasis="brand"], [data-look-emphasis="inverse"]) > [data-stat-row] > :first-child {
+  background-image: linear-gradient(135deg, var(--studio-brand-fill) 10%, oklch(from var(--studio-brand-fill) l c calc(h + 40))) !important;
+}
+
+/* Glow lead: the card stays in the page's mode and is lit by the brand from
+   its top corner (and the accent from the far one), with a brand edge and a
+   soft brand halo. The page's own text colours hold: the wash never passes a
+   quarter of the brand over the card. */
+:root[data-lead="glow"] [data-look-emphasis="inverse"] > [data-slot="card"]:not([data-stat-row]),
+:root[data-lead="glow"] [data-look-emphasis="inverse"] > [data-stat-row] > :first-child {
+  background-color: color-mix(in oklch, var(--primary) 6%, var(--card)) !important;
+  background-image:
+    radial-gradient(90% 120% at 0% 0%, color-mix(in oklch, var(--primary) 24%, transparent), transparent 62%),
+    radial-gradient(70% 100% at 100% 100%, color-mix(in oklch, var(--highlight, var(--primary)) 14%, transparent), transparent 58%) !important;
+  border-color: color-mix(in oklch, var(--primary) 46%, transparent) !important;
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, white 10%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--primary) 14%, transparent),
+    0 24px 70px -36px color-mix(in oklch, var(--primary) 70%, transparent) !important;
+}
+
+/* Key figures (data-numbers): monospace digits, thin display or heavy. */
+[data-numbers="mono"] .font-heading.tabular-nums {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+[data-numbers="thin"] .font-heading.tabular-nums {
+  font-weight: 300;
+  letter-spacing: -0.035em;
+}
+[data-numbers="heavy"] .font-heading.tabular-nums {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+/* LED dots: a dot-matrix face (Doto, round dots) on the large figures only;
+   smaller ones keep the kit's, since dots stop reading at small sizes. */
+[data-numbers="dots"] .font-heading.tabular-nums:is([class*="text-2xl"], [class*="text-3xl"], [class*="text-4xl"], [class*="text-5xl"], [class*="text-6xl"], [class*="text-7xl"], [class*="text-[2"], [class*="text-[3"], [class*="text-[4"], [class*="text-[5"], [class*="text-[6"]) {
+  font-family: var(--font-doto, "Doto"), var(--font-mono), monospace;
+  font-weight: 900;
+  font-variation-settings: "ROND" 100;
+  /* The face is wide with open sidebearings: drawn in tighter, a figure takes the room a kit figure does. */
+  letter-spacing: -0.08em;
+}
+
+/* Hatched tracks (data-hatch): the unfilled part of a progress bar and the
+   bars outside a chart's highlight read as "not yet / not this one". */
+[data-hatch] :is([data-slot="progress"], [role="progressbar"].bg-muted) {
+  background-color: color-mix(in oklch, var(--foreground) 5%, transparent);
+  background-image: repeating-linear-gradient(-45deg, color-mix(in oklch, var(--foreground) 20%, transparent) 0 1px, transparent 1px 5px);
+}
+[data-hatch] [data-chart-rest] {
+  background-color: color-mix(in oklch, var(--foreground) 4%, transparent);
+  background-image: repeating-linear-gradient(-45deg, color-mix(in oklch, var(--foreground) 26%, transparent) 0 1.5px, transparent 1.5px 6px);
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--foreground) 14%, transparent);
+}
+/* Scale: display enlarges the section's key figures and its title. */
+[data-look-scale="display"] .font-heading.tabular-nums {
+  zoom: 1.4;
+}
+/* On a stat row, only the lead stat grows, like its emphasis. */
+[data-look-scale="display"] > [data-stat-row] > :not(:first-child) .font-heading.tabular-nums {
+  zoom: 1;
+}
+/* Display figures grow only as far as their card allows: full size in a wide card, less in a
+   middle one, none in a narrow one, so a big number never runs out of its card. A badge beside
+   one wraps under it. */
+[data-look-scale="display"] > [data-stat-row] > :first-child,
+[data-look-scale="display"] > [data-slot="card"] {
+  container-type: inline-size;
+}
+[data-look-scale="display"] :has(> .font-heading.tabular-nums) {
+  flex-wrap: wrap;
+}
+@container (max-width: 30rem) {
+  [data-look-scale="display"] > [data-stat-row] > :first-child .font-heading.tabular-nums,
+  [data-look-scale="display"] > [data-slot="card"] .font-heading.tabular-nums {
+    zoom: 1.2;
+  }
+}
+@container (max-width: 22rem) {
+  [data-look-scale="display"] > [data-stat-row] > :first-child .font-heading.tabular-nums,
+  [data-look-scale="display"] > [data-slot="card"] .font-heading.tabular-nums {
+    zoom: 1;
+  }
+}
+[data-look-scale="display"] :is([data-slot="block-header"], [data-slot="card-header"]) :is(h2, h3) {
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+/*
+  Card headers across the app (data-card-header on <html>): how every card's
+  title is set. These come before the per-section header looks below, which
+  have the same weight and so win where a section sets its own.
+*/
+[data-card-header="eyebrow"] :is([data-slot="block-header"], [data-slot="card-header"]):not([data-header="person"]) :is(h2, h3) {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+[data-card-header="large"] :is([data-slot="block-header"], [data-slot="card-header"]):not([data-header="person"]) :is(h2, h3) {
+  font-size: 1.25rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+/* Ruled: a hairline closes the header, so title and content read as two bands. */
+/* (A header that names a person, as over a conversation, keeps its own type and already has its rule.) */
+[data-card-header="ruled"] [data-slot="card"] > :is([data-slot="block-header"], [data-slot="card-header"]):not([data-header="person"]) {
+  padding-bottom: calc(var(--spacing) * 3.5);
+  border-bottom: 1px solid var(--border);
+}
+/* Accent: a short brand tick before each title. */
+[data-card-header="accent"] :is([data-slot="block-header"], [data-slot="card-header"]):not([data-header="person"]) :is(h2, h3)::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 0.85em;
+  margin-right: 0.55em;
+  border-radius: 2px;
+  background-color: var(--primary-mark);
+  vertical-align: -0.06em;
+}
+
+/*
+  Icon style (data-icons on <html>): the kit's icons (lucide) drawn thinner,
+  bolder, with their closed shapes washed in their own colour, or with square
+  ends and corners. Charts and illustrations aren't icons and keep their own.
+*/
+[data-icons="thin"] svg.lucide {
+  stroke-width: 1.25;
+}
+[data-icons="bold"] svg.lucide {
+  stroke-width: 2.4;
+}
+[data-icons="duotone"] svg.lucide :is(rect, circle, ellipse, polygon, path[d$="z"], path[d$="Z"]) {
+  fill: color-mix(in oklch, currentColor 18%, transparent);
+}
+[data-icons="sharp"] svg.lucide {
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+/*
+  Chart finish (data-chart on <html>): clean drops the grid lines and the
+  area fill; solid draws a hairline grid and square bars; soft rounds bars
+  into pills, thickens the line and dots the grid.
+*/
+[data-chart="clean"] [data-chart-grid] {
+  display: none;
+}
+[data-chart="clean"] [data-chart-area] {
+  opacity: 0;
+}
+[data-chart="solid"] [data-chart-grid] {
+  border-top-style: solid;
+  stroke-dasharray: none;
+}
+[data-chart="solid"] [data-chart-bar] {
+  border-radius: 2px 2px 0 0;
+}
+[data-chart="soft"] [data-chart-grid] {
+  border-top-style: dotted;
+  stroke-dasharray: 1 6;
+  stroke-linecap: round;
+}
+[data-chart="soft"] [data-chart-bar] {
+  border-radius: 9999px;
+}
+[data-chart="soft"] [data-chart-line] {
+  stroke-width: 3.25;
+}
+
+/* Header: an eyebrow, a large title, or none (the icon goes with the first two).
+   A shelf (a strip or collection on the page) always keeps its title. */
+[data-look-header="none"] :is([data-slot="block-header"], [data-slot="card-header"]) {
+  display: none;
+}
+:is([data-look-header="eyebrow"], [data-look-header="large"]) [data-slot="block-icon"] {
+  display: none;
+}
+[data-look-header="eyebrow"] :is([data-slot="block-header"], [data-slot="card-header"], [data-slot="shelf-header"]) :is(h2, h3) {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+/* Eyebrow titles follow the theme's label style, like every other label. */
+[data-labels="plain"] [data-look-header="eyebrow"] :is([data-slot="block-header"], [data-slot="card-header"], [data-slot="shelf-header"]) :is(h2, h3) {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+[data-labels="caps"] [data-look-header="eyebrow"] :is([data-slot="block-header"], [data-slot="card-header"], [data-slot="shelf-header"]) :is(h2, h3) {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+[data-labels="brand"] [data-look-header="eyebrow"] :is([data-slot="block-header"], [data-slot="card-header"], [data-slot="shelf-header"]) :is(h2, h3) {
+  color: var(--primary-ink);
+}
+[data-labels="italic"] [data-look-header="eyebrow"] :is([data-slot="block-header"], [data-slot="card-header"], [data-slot="shelf-header"]) :is(h2, h3) {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-style: italic;
+  letter-spacing: normal;
+  text-transform: none;
+}
+[data-look-header="large"] :is([data-slot="block-header"], [data-slot="card-header"], [data-slot="shelf-header"]) :is(h2, h3) {
+  font-size: 1.375rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+/* Density: the section's own spacing scale, like the theme's. */
+[data-look-density="compact"] {
+  --spacing: 0.205rem;
+}
+[data-look-density="roomy"] {
+  --spacing: 0.3rem;
+}
+
+[data-backdrop="glow"] :is(body, [data-slot="page-panel"]) {
+  background-image:
+    radial-gradient(60% 45% at 8% 0%, color-mix(in oklch, var(--studio-bd-1, var(--primary)) calc(24% * var(--studio-backdrop, 1)), transparent), transparent),
+    radial-gradient(45% 40% at 95% 12%, color-mix(in oklch, var(--studio-bd-1, var(--primary)) calc(14% * var(--studio-backdrop, 1)), transparent), transparent);
+  background-attachment: fixed;
+}
+[data-backdrop="mesh"] :is(body, [data-slot="page-panel"]) {
+  background-image:
+    radial-gradient(45% 40% at 10% 10%, color-mix(in oklch, var(--studio-bd-1, var(--primary)) calc(30% * var(--studio-backdrop, 1)), transparent), transparent),
+    radial-gradient(40% 40% at 90% 20%, color-mix(in oklch, var(--studio-bd-2, var(--signal-cyan)) calc(22% * var(--studio-backdrop, 1)), transparent), transparent),
+    radial-gradient(50% 45% at 60% 100%, color-mix(in oklch, var(--studio-bd-3, var(--signal-magenta)) calc(18% * var(--studio-backdrop, 1)), transparent), transparent);
+  background-attachment: fixed;
+}
+/* Prism: a vivid wash from every corner (the brand, magenta, amber, cyan), the page a glass sheet on it. */
+[data-backdrop="prism"] :is(body, [data-slot="page-panel"]) {
+  background-image:
+    radial-gradient(65% 60% at 0% 0%, color-mix(in oklch, var(--studio-bd-1, var(--primary)) calc(62% * var(--studio-backdrop, 1)), transparent), transparent),
+    radial-gradient(55% 55% at 100% 0%, color-mix(in oklch, var(--studio-bd-2, var(--signal-magenta)) calc(42% * var(--studio-backdrop, 1)), transparent), transparent),
+    radial-gradient(65% 55% at 100% 100%, color-mix(in oklch, var(--studio-bd-3, #f5c84b) calc(52% * var(--studio-backdrop, 1)), transparent), transparent),
+    radial-gradient(55% 50% at 0% 100%, color-mix(in oklch, var(--studio-bd-4, var(--signal-cyan)) calc(34% * var(--studio-backdrop, 1)), transparent), transparent);
+  background-attachment: fixed;
+}
+[data-backdrop="spotlight"] :is(body, [data-slot="page-panel"]) {
+  background-image:
+    radial-gradient(24% 32% at 50% -6%, color-mix(in oklch, var(--studio-bd-1, var(--primary)) calc(24% * var(--studio-backdrop, 1)), transparent), transparent),
+    radial-gradient(55% 60% at 50% -10%, color-mix(in oklch, var(--studio-bd-1, var(--primary)) calc(18% * var(--studio-backdrop, 1)), transparent), transparent);
+  background-attachment: fixed;
+}
+[data-backdrop="wash"] :is(body, [data-slot="page-panel"]) {
+  background-image: linear-gradient(180deg, color-mix(in oklch, var(--studio-bd-1, var(--primary)) calc(14% * var(--studio-backdrop, 1)), transparent), transparent 55%);
+  background-attachment: fixed;
+}
+[data-backdrop="horizon"] :is(body, [data-slot="page-panel"]) {
+  background-image:
+    radial-gradient(90% 55% at 50% 115%, color-mix(in oklch, var(--studio-bd-1, var(--primary)) calc(26% * var(--studio-backdrop, 1)), transparent), transparent),
+    radial-gradient(60% 30% at 50% 105%, color-mix(in oklch, var(--studio-bd-2, var(--signal-orange)) calc(12% * var(--studio-backdrop, 1)), transparent), transparent);
+  background-attachment: fixed;
+}
+[data-backdrop="aurora"] :is(body, [data-slot="page-panel"]) {
+  background-image:
+    radial-gradient(70% 16% at 28% 6%, color-mix(in oklch, var(--studio-bd-1, var(--primary)) calc(26% * var(--studio-backdrop, 1)), transparent), transparent),
+    radial-gradient(60% 14% at 72% 13%, color-mix(in oklch, var(--studio-bd-2, var(--signal-cyan)) calc(18% * var(--studio-backdrop, 1)), transparent), transparent),
+    radial-gradient(50% 12% at 52% 1%, color-mix(in oklch, var(--studio-bd-3, var(--signal-magenta)) calc(16% * var(--studio-backdrop, 1)), transparent), transparent);
+  background-attachment: fixed;
+}
+[data-backdrop="grid"] :is(body, [data-slot="page-panel"]) {
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--studio-bd-1, var(--foreground)) calc(6% * var(--studio-backdrop, 1)), transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--studio-bd-1, var(--foreground)) calc(6% * var(--studio-backdrop, 1)), transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-attachment: fixed;
+}
+[data-backdrop="dots"] :is(body, [data-slot="page-panel"]) {
+  background-image: radial-gradient(color-mix(in oklch, var(--studio-bd-1, var(--foreground)) calc(14% * var(--studio-backdrop, 1)), transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+  background-attachment: fixed;
+}
+
+[data-backdrop="graph"] :is(body, [data-slot="page-panel"]) {
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--studio-bd-1, var(--foreground)) calc(7% * var(--studio-backdrop, 1)), transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--studio-bd-1, var(--foreground)) calc(7% * var(--studio-backdrop, 1)), transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in oklch, var(--studio-bd-1, var(--foreground)) calc(3% * var(--studio-backdrop, 1)), transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--studio-bd-1, var(--foreground)) calc(3% * var(--studio-backdrop, 1)), transparent) 1px, transparent 1px);
+  background-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px;
+  background-attachment: fixed;
+}
+[data-backdrop="lines"] :is(body, [data-slot="page-panel"]) {
+  background-image: repeating-linear-gradient(135deg, color-mix(in oklch, var(--studio-bd-1, var(--foreground)) calc(5% * var(--studio-backdrop, 1)), transparent) 0 1px, transparent 1px 14px);
+  background-attachment: fixed;
+}
+/* Waves and grain are mid-grey, so they read on light and dark pages alike.
+   Their strength comes redrawn in --studio-backdrop-image. */
+[data-backdrop="waves"] :is(body, [data-slot="page-panel"]) {
+  background-image: var(--studio-backdrop-image, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='28'%3E%3Cpath d='M0 14 C 20 4, 40 4, 60 14 S 100 24, 120 14' fill='none' stroke='%23888' stroke-opacity='.2'/%3E%3C/svg%3E"));
+  background-size: 120px 28px;
+  background-attachment: fixed;
+}
+[data-backdrop="grain"] :is(body, [data-slot="page-panel"]) {
+  background-image: var(--studio-backdrop-image, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E"));
+  background-size: 180px 180px;
+  background-attachment: fixed;
+}/* Full-page gradients: the stops come from the theme, already eased into
+   the page colour so its text stays at AA (theme.ts, gradientStops). */
+:is([data-backdrop="gradient"], [data-backdrop="radial"], [data-backdrop="conic"]) :is(body, [data-slot="page-panel"]) {
+  background-image: var(--studio-backdrop-image);
+  background-attachment: fixed;
+}
+/*
+  Type, width and corners (GliaKit Studio), set on <html> when they differ
+  from the kit's: heading weight, letter spacing and capitals; how wide the
+  page's content runs; and how rounded corners are cut (CSS corner-shape,
+  where supported; round corners elsewhere).
+*/
+[data-heading-weight] :is(h1, h2, h3, h4, .font-heading) {
+  font-weight: var(--studio-heading-weight);
+}
+[data-heading-tracking] :is(h1, h2, h3, h4, .font-heading) {
+  letter-spacing: var(--studio-heading-tracking);
+}
+[data-heading-case="caps"] :is(h1, h2, h3, h4, .font-heading):not(.tabular-nums) {
+  text-transform: uppercase;
+}
+[data-width="narrow"] .max-w-6xl {
+  max-width: 60rem;
+}
+[data-width="narrow"] .max-w-\[1480px\] {
+  max-width: 72rem;
+}
+[data-width="wide"] .max-w-6xl {
+  max-width: 84rem;
+}
+[data-width="wide"] .max-w-\[1480px\] {
+  max-width: 1760px;
+}
+[data-width="full"] :is(.max-w-6xl, .max-w-\[1480px\]) {
+  max-width: none;
+}
+[data-corners="squircle"] * {
+  corner-shape: squircle;
+}
+[data-corners="bevel"] * {
+  corner-shape: bevel;
+}
+[data-corners="notch"] * {
+  corner-shape: notch;
+}
+[data-corners="scoop"] * {
+  corner-shape: scoop;
+}
+
+
+
+/* Studio's working area: a plain canvas darker than the panels around it,
+   so the page reads as the thing being worked on. */
+.studio-canvas {
+  background-color: #050508;
+}
+.light .studio-canvas {
+  background-color: #f2f2f6;
+}
+
+/* Studio's scrollbars: a thin rounded thumb a shade off the panel, no track.
+   Menus and popovers are portalled out of the editor, so they're listed too. */
+:is(.studio-scroll, [data-radix-popper-content-wrapper]),
+:is(.studio-scroll, [data-radix-popper-content-wrapper]) * {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--foreground) 16%, transparent) transparent;
+}
+@supports not (scrollbar-color: auto) {
+  :is(.studio-scroll, [data-radix-popper-content-wrapper]) ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  :is(.studio-scroll, [data-radix-popper-content-wrapper]) ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  :is(.studio-scroll, [data-radix-popper-content-wrapper]) ::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background: color-mix(in oklch, var(--foreground) 16%, transparent) padding-box;
+  }
+}
+
+/*
+  A chart with four or more series (data-series-ramp on its card) takes the
+  theme's chart colours as a scale. A Studio theme sets --chart-ramp-N: in
+  a one-colour palette its shades from light to dark, else the usual order.
+  Without them the declarations are invalid and the usual colours inherit.
+*/
+[data-series-ramp] {
+  --chart-1: var(--chart-ramp-1);
+  --chart-2: var(--chart-ramp-2);
+  --chart-3: var(--chart-ramp-3);
+  --chart-4: var(--chart-ramp-4);
+  --chart-5: var(--chart-ramp-5);
+}
+
+/*
+  Studio's own interface (data-studio-chrome on the editor, so not the
+  apps it previews, which are their own pages with their own brand)
+  follows gliakit.com: primary buttons, switches, checkboxes and badges
+  in the text colour (black in light, white in dark), flat, no glow. The
+  selection stays Studio violet, as on the site.
+*/
+:root:has([data-studio-chrome]) {
+  --primary: #14141b;
+  --primary-mark: #14141b;
+  --primary-strong: #14141b;
+  --primary-foreground: #ffffff;
+  --primary-ink: #14141b;
+  --ring: #14141b;
+  /* The gradient button's hover: a shade lighter, like the site's pills. */
+  --gradient-signal: linear-gradient(color-mix(in oklch, #14141b 85%, #ffffff), color-mix(in oklch, #14141b 85%, #ffffff));
+}
+:root.dark:has([data-studio-chrome]) {
+  --primary: #ededf2;
+  --primary-mark: #ededf2;
+  --primary-strong: #ededf2;
+  --primary-foreground: #0a0a0f;
+  --primary-ink: #ededf2;
+  --ring: #ededf2;
+  --gradient-signal: linear-gradient(color-mix(in oklch, #ededf2 85%, #0a0a0f), color-mix(in oklch, #ededf2 85%, #0a0a0f));
+}
+:root:has([data-studio-chrome]) :is(.shadow-glossy, .shadow-glossy:hover) {
+  box-shadow: none;
+}
+
+/*
+  Studio's menus, Figma-style: black in both themes, compact 24px rows, small
+  text, hairline separators edge to edge, shortcuts and hints in grey, the
+  highlight a solid violet. Scoped to Studio's own window (its chrome root
+  carries data-studio-chrome="true"; the preview's parts carry "hover" or
+  "selected"), so the apps it designs keep the kit's menus. The tokens are
+  re-pointed inside the menu, so whatever sits in one (a search field, a
+  badge, a hint) follows.
+*/
+/* Studio's popovers (the panel's settings, colour pickers, backdrops) share the menus' black
+   and tokens, so their fields, sliders and segmented controls turn light-on-black too; they
+   keep their own padding and size (the rule after this one is for menus only). */
+:root:has([data-studio-chrome="true"]) [data-slot="popover-content"] {
+  /* Surfaces inside (a segmented control's active option, chips) sit a step above the black. */
+  --card: #26262b;
+  --popover: #000000;
+  --background: #000000;
+  --foreground: #ffffff;
+  --card-foreground: #ffffff;
+  --popover-foreground: #ffffff;
+  --muted: rgb(255 255 255 / 0.1);
+  --muted-foreground: rgb(255 255 255 / 0.6);
+  --accent: rgb(255 255 255 / 0.08);
+  --accent-foreground: #ffffff;
+  --border: rgb(255 255 255 / 0.12);
+  --input: rgb(255 255 255 / 0.14);
+  --primary-ink: #ffffff;
+  --ring: #ffffff;
+  color-scheme: dark;
+  border: 0;
+  border-radius: 12px;
+  background: #000000;
+  color: #ffffff;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1), 0 10px 24px -6px rgb(0 0 0 / 0.35), 0 2px 6px rgb(0 0 0 / 0.15);
+}
+:root:has([data-studio-chrome="true"]) :is([data-slot="dropdown-menu-content"], [data-slot="context-menu-content"], [data-slot="select-content"]) {
+  --card: #000000;
+  --popover: #000000;
+  --background: #000000;
+  --foreground: #ffffff;
+  --card-foreground: #ffffff;
+  --popover-foreground: #ffffff;
+  --muted: rgb(255 255 255 / 0.1);
+  --muted-foreground: rgb(255 255 255 / 0.6);
+  --accent: rgb(255 255 255 / 0.08);
+  --accent-foreground: #ffffff;
+  --border: rgb(255 255 255 / 0.1);
+  --input: rgb(255 255 255 / 0.14);
+  --destructive: #ff8a8f;
+  --primary: #ffffff;
+  --primary-mark: #ffffff;
+  --primary-foreground: #000000;
+  /* The checked option and its tick (select items use brand ink): white on black, not the theme's violet. */
+  --primary-ink: #ffffff;
+  --ring: #ffffff;
+  color-scheme: dark;
+  min-width: 11rem;
+  padding: 6px;
+  border: 0;
+  border-radius: 12px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 16px;
+  /* A hairline ring, so black still has an edge on Studio's near-black dark mode. */
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.1), 0 10px 24px -6px rgb(0 0 0 / 0.35), 0 2px 6px rgb(0 0 0 / 0.15);
+}
+:root:has([data-studio-chrome="true"]) :is([data-slot="dropdown-menu-item"], [data-slot="context-menu-item"], [data-slot="select-item"]) {
+  min-height: 24px;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 16px;
+}
+/* Icons small and a touch quieter, like Figma's. */
+:root:has([data-studio-chrome="true"]) :is([data-slot="dropdown-menu-item"], [data-slot="context-menu-item"], [data-slot="select-item"]) svg:not([class*="size-3"]) {
+  width: 14px;
+  height: 14px;
+}
+:root:has([data-studio-chrome="true"]) :is([data-slot="dropdown-menu-item"], [data-slot="context-menu-item"], [data-slot="select-item"]) .text-xs {
+  font-size: 11px;
+  line-height: 14px;
+}
+/* The highlight: solid violet, white text and hints. */
+:root:has([data-studio-chrome="true"]) :is([data-slot="dropdown-menu-item"], [data-slot="context-menu-item"], [data-slot="select-item"]):is([data-highlighted], [data-state="open"]) {
+  background: var(--signal-violet-strong);
+  color: #ffffff;
+  --muted-foreground: rgb(255 255 255 / 0.8);
+  --destructive: #ffffff;
+}
+:root:has([data-studio-chrome="true"]) :is([data-slot="dropdown-menu-separator"], [data-slot="context-menu-separator"]) {
+  height: 1px;
+  margin: 6px -6px;
+  background: rgb(255 255 255 / 0.1);
+}
+:root:has([data-studio-chrome="true"]) :is([data-slot="dropdown-menu-label"]) {
+  padding: 6px 8px 2px;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgb(255 255 255 / 0.55);
+}
+:root:has([data-studio-chrome="true"]) [data-slot="dropdown-menu-shortcut"] {
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0;
+  color: rgb(255 255 255 / 0.55);
+}
+
+/* The selected section's inner layers in Studio's edit mode (markLayers in
+   studio/inline-edit.ts): each item and piece of text, dashed, as Figma
+   shows a selected frame's children; text lighter than items, so a big
+   table stays readable. Outlines take no space. */
+[data-studio-layer] {
+  outline: 1px dashed color-mix(in oklch, var(--signal-violet) 50%, transparent);
+  outline-offset: 2px;
+}
+/* Items (a stat, a row) read stronger than the text inside them. */
+[data-studio-layer="item"] {
+  outline-color: color-mix(in oklch, var(--signal-violet) 80%, transparent);
+  outline-offset: 1px;
+}
+
+/* Studio's Comment mode (data-studio-commenting on the preview's <html>):
+   a speech-bubble cursor, as in Figma, and the section a click would
+   comment on outlined in Studio's violet. */
+[data-studio-commenting],
+[data-studio-commenting] * {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M2 22V12a10 10 0 1 1 10 10Z' fill='%235e45c4' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M12 8v8M8 12h8' stroke='white' stroke-width='1.75' stroke-linecap='round'/%3E%3C/svg%3E")
+      2 22,
+    crosshair !important;
+}
+[data-studio-commenting] [data-studio-comment-target] {
+  outline: 2px solid color-mix(in oklch, var(--signal-violet) 70%, transparent);
+  outline-offset: -2px;
+}
+
+/*
+  Wireframe view (GliaKit Studio): data-wireframe on <html> draws the app as
+  a low-fidelity wireframe for agreeing structure with clients, the way a
+  designer would sketch it: light grey hairlines, flat grey fills, body copy
+  as rounded grey lines (the Flow Rounded font) with only headings left
+  readable, and images and charts as crossed-out boxes. The brand is already
+  made light, flat and plain (wireframeBrand); here the tokens go grey
+  (!important beats the theme's inline values), shadows, gradients and blur
+  drop away, and a grayscale filter on the root catches any colour left over.
+*/
+[data-wireframe],
+[data-wireframe] [data-look-emphasis] > [data-slot="card"]:not([data-stat-row]),
+[data-wireframe] [data-look-emphasis] > [data-stat-row] > :first-child {
+  --background: #ffffff !important;
+  --foreground: #a1a1aa !important;
+  --card: #ffffff !important;
+  --card-foreground: #a1a1aa !important;
+  --popover: #ffffff !important;
+  --popover-foreground: #a1a1aa !important;
+  --primary: #d4d4d8 !important;
+  --primary-mark: #d4d4d8 !important;
+  --primary-strong: #d4d4d8 !important;
+  --primary-foreground: #ffffff !important;
+  --primary-ink: #a1a1aa !important;
+  --studio-brand-fill: #d4d4d8 !important;
+  --studio-brand-text: #ffffff !important;
+  --highlight: #d4d4d8 !important;
+  --secondary: #f4f4f5 !important;
+  --secondary-foreground: #a1a1aa !important;
+  --muted: #f4f4f5 !important;
+  --muted-foreground: #d4d4d8 !important;
+  --accent: #f4f4f5 !important;
+  --accent-foreground: #a1a1aa !important;
+  --destructive: #a1a1aa !important;
+  --warning: #a1a1aa !important;
+  --warning-foreground: #a1a1aa !important;
+  --diff-add: #a1a1aa !important;
+  --diff-add-bg: #f4f4f5 !important;
+  --diff-remove: #a1a1aa !important;
+  --diff-remove-bg: #f4f4f5 !important;
+  --border: #d4d4d8 !important;
+  --input: #d4d4d8 !important;
+  --ring: #a1a1aa !important;
+  --chart-1: #d4d4d8 !important;
+  --chart-2: #e4e4e7 !important;
+  --chart-3: #ececef !important;
+  --chart-4: #c4c4c9 !important;
+  --chart-5: #f0f0f2 !important;
+  --chart-from: #d4d4d8 !important;
+  --chart-to: #e4e4e7 !important;
+  --signal-cyan: #d4d4d8 !important;
+  --signal-magenta: #d4d4d8 !important;
+  --signal-orange: #d4d4d8 !important;
+  --signal-red: #d4d4d8 !important;
+  --sidebar: #ffffff !important;
+  --sidebar-foreground: #a1a1aa !important;
+  --sidebar-primary: #d4d4d8 !important;
+  --sidebar-primary-foreground: #ffffff !important;
+  --sidebar-accent: #f4f4f5 !important;
+  --sidebar-accent-foreground: #a1a1aa !important;
+  --sidebar-border: #d4d4d8 !important;
+  --sidebar-ring: #a1a1aa !important;
+  /* Copy, figures and labels become rounded lines; headings are set apart below. */
+  --studio-font-heading: var(--font-wire), var(--font-geist-sans) !important;
+  --studio-font-body: var(--font-wire), var(--font-geist-sans) !important;
+  --font-jetbrains-mono: var(--font-wire) !important;
+}
+[data-wireframe] {
+  color-scheme: light;
+  filter: grayscale(1);
+}
+[data-wireframe] body {
+  background: #ffffff !important;
+}
+[data-wireframe] *,
+[data-wireframe] *::before,
+[data-wireframe] *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  background-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+/* The rounded-line glyphs bleed past their advance width, so a smaller or larger
+   run beside another (a figure's currency, unit or total) would overlap it: runs
+   inside a line of copy stand apart, and nothing is tracked tighter than the font. */
+[data-wireframe] :is(p, h1, h2, h3, h4, dt, dd, [data-slot="dialog-title"], [data-slot="sheet-title"]) > span:not([class*="size-"]):not(:has(svg)) {
+  margin-inline: 0.3em;
+}
+[data-wireframe] * {
+  letter-spacing: 0 !important;
+}
+/* A selected section shows its outline alone: no name tag, no options button. */
+[data-wireframe] [data-studio-tag] {
+  display: none;
+}
+/* Headings stay readable, in a quiet grey, so the page still says what it is. */
+[data-wireframe] :is(h1, h2, h3, h4, [data-slot="dialog-title"], [data-slot="sheet-title"]) {
+  font-family: var(--font-geist-sans) !important;
+  color: #52525b !important;
+}
+/* Emphasised cards (tinted, brand, inverse) go flat: the slightest grey, a ruled edge. */
+[data-wireframe] [data-look-emphasis] > [data-slot="card"]:not([data-stat-row]),
+[data-wireframe] [data-look-emphasis] > [data-stat-row] > :first-child {
+  background-color: #fafafa !important;
+  border-color: #d4d4d8 !important;
+  color: #a1a1aa;
+  color-scheme: light;
+}
+/* Card tones (pastel, candy) are colour, so a wireframe leaves them out. */
+/* The launcher's round icons: one colour each in turn, unless the theme keeps to one
+   colour (mono tones: the brand fill and its text) or it's a wireframe (grey). */
+:root:not([data-tones]) [data-launcher] {
+  --launch-fill: var(--primary-strong);
+  --launch-ink: var(--primary-foreground);
+}
+[data-wireframe] [data-launcher] {
+  --launch-fill: var(--muted);
+  --launch-ink: var(--foreground);
+}
+[data-wireframe][data-tones] :is([data-stat-row], [data-tone-group]) > * {
+  background-color: #ffffff !important;
+}
+/* Coloured header bands and navigation go white with a ruled edge. */
+[data-wireframe] :is([data-slot="nav-band"], [data-slot="app-nav"]) {
+  --card: #ffffff !important;
+  --background: #ffffff !important;
+  --foreground: #a1a1aa !important;
+  --muted-foreground: #d4d4d8 !important;
+  --border: #d4d4d8 !important;
+  background-color: #ffffff !important;
+  color: #a1a1aa !important;
+}
+/* Images and illustrations: the classic crossed-out box. */
+[data-wireframe] :is(img, video, [data-slot="brand-art"]) {
+  object-position: -10000px 0 !important;
+  outline: 1px solid #d4d4d8;
+  outline-offset: -1px;
+  background:
+    linear-gradient(to top right, transparent calc(50% - 0.6px), #d4d4d8 50%, transparent calc(50% + 0.6px)),
+    linear-gradient(to top left, transparent calc(50% - 0.6px), #d4d4d8 50%, transparent calc(50% + 0.6px)),
+    #fafafa !important;
+}
+[data-wireframe] [data-slot="brand-art"] > * {
+  visibility: hidden;
+}
+
+/*
+  Card tones (GliaKit Studio, data-tones on <html>): repeated cards (stat
+  rows, quick-action tiles, feature grids) each take a colour from a set of
+  six. "pastel" is a soft tint per card; "candy" is bold pastel blocks with
+  dark text in light and dark themes alike.
+*/
+/* A lead card with an emphasis keeps its own fill: its text is set for that fill, not the tone's. */
+[data-tones] :is([data-stat-row], [data-tone-group]) > :not([data-card-tone], [data-look-emphasis] > [data-stat-row] > :first-child) {
+  background-color: var(--tone) !important;
+}
+[data-tones] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 1) { --tone: var(--tone-1); }
+[data-tones] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 2) { --tone: var(--tone-2); }
+[data-tones] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 3) { --tone: var(--tone-3); }
+[data-tones] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 4) { --tone: var(--tone-4); }
+[data-tones] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 5) { --tone: var(--tone-5); }
+[data-tones] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 6) { --tone: var(--tone-6); }
+[data-tones="pastel"] {
+  --tone-1: #ecf7ef;
+  --tone-2: #eaf2fe;
+  --tone-3: #fdf1e7;
+  --tone-4: #f2edfd;
+  --tone-5: #fcf8e0;
+  --tone-6: #fdedf2;
+}
+[data-tones="pastel"].dark {
+  --tone-1: #15241b;
+  --tone-2: #141d2b;
+  --tone-3: #2a1e15;
+  --tone-4: #1f1a2f;
+  --tone-5: #26230f;
+  --tone-6: #2a1720;
+}
+[data-tones="candy"] {
+  --tone-1: #c9f0d2;
+  --tone-2: #cfe0fb;
+  --tone-3: #f6efa6;
+  --tone-4: #e2d4fb;
+  --tone-5: #fcd9bf;
+  --tone-6: #f9d0e1;
+}
+/* Gradient tiles: a soft two-colour wash per card (peach to rose, aqua to
+   sky…), light in both themes like candy. The base colour is the gradient's
+   lighter end, for anything that reads the tile's colour. */
+[data-tones="gradient"] {
+  --tone-1: #fde6dc;
+  --tone-2: #dcf5f3;
+  --tone-3: #ece2ff;
+  --tone-4: #fff1cc;
+  --tone-5: #e1f6d8;
+  --tone-6: #e0e6ff;
+}
+[data-tones="gradient"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 1):not([data-card-tone]) { background-image: linear-gradient(140deg, #fde6dc, #f7b2c6) !important; }
+[data-tones="gradient"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 2):not([data-card-tone]) { background-image: linear-gradient(140deg, #dcf5f3, #9ccff3) !important; }
+[data-tones="gradient"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 3):not([data-card-tone]) { background-image: linear-gradient(140deg, #ece2ff, #c3b1fa) !important; }
+[data-tones="gradient"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 4):not([data-card-tone]) { background-image: linear-gradient(140deg, #fff1cc, #f9cf8a) !important; }
+[data-tones="gradient"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 5):not([data-card-tone]) { background-image: linear-gradient(140deg, #e1f6d8, #a9dd9c) !important; }
+[data-tones="gradient"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 6):not([data-card-tone]) { background-image: linear-gradient(140deg, #e0e6ff, #aab9f8) !important; }
+/* Riso inks: yellow, fluorescent pink and medium blue, printed full and as a light tint. */
+[data-tones="riso"] {
+  --tone-1: #ffd84a;
+  --tone-2: #ffb6d3;
+  --tone-3: #cdd0fb;
+  --tone-4: #ffeaa6;
+  --tone-5: #ffd6e6;
+  --tone-6: #e3e5ff;
+}
+/* Vivid gradients: deep, saturated two-hue tiles (violet to magenta, pink to
+   orange, teal to blue…) with white text. Every stop holds 4.5:1 under white,
+   in both themes. The base colour is each gradient's first stop. */
+[data-tones="vivid"] {
+  --tone-1: #6d28d9;
+  --tone-2: #be185d;
+  --tone-3: #0f766e;
+  --tone-4: #4338ca;
+  --tone-5: #b91c1c;
+  --tone-6: #166534;
+}
+[data-tones="vivid"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 1):not([data-card-tone]) { background-image: linear-gradient(150deg, #6d28d9, #a21caf) !important; }
+[data-tones="vivid"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 2):not([data-card-tone]) { background-image: linear-gradient(150deg, #be185d, #c2410c) !important; }
+[data-tones="vivid"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 3):not([data-card-tone]) { background-image: linear-gradient(150deg, #0f766e, #1d4ed8) !important; }
+[data-tones="vivid"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 4):not([data-card-tone]) { background-image: linear-gradient(150deg, #4338ca, #7e22ce) !important; }
+[data-tones="vivid"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 5):not([data-card-tone]) { background-image: linear-gradient(150deg, #b91c1c, #be185d) !important; }
+[data-tones="vivid"] :is([data-stat-row], [data-tone-group]) > :nth-child(6n + 6):not([data-card-tone]) { background-image: linear-gradient(150deg, #166534, #0e7490) !important; }
+[data-tones="vivid"] :is([data-stat-row], [data-tone-group]) > :not([data-card-tone]) {
+  --foreground: #ffffff;
+  --card-foreground: #ffffff;
+  --muted-foreground: rgb(255 255 255 / 0.9);
+  --muted: rgb(255 255 255 / 0.16);
+  --border: rgb(255 255 255 / 0.24);
+  --primary-ink: #ffffff;
+  --chart-1: rgb(255 255 255 / 0.95);
+  --chart-2: rgb(255 255 255 / 0.6);
+  /* Status colours in their pale shades, so a change pill reads on the deep tile. */
+  --diff-add: #bbf7d0;
+  --diff-add-bg: rgb(255 255 255 / 0.16);
+  --destructive: #fecaca;
+  --diff-remove: #fecaca;
+  --diff-remove-bg: rgb(255 255 255 / 0.16);
+  --warning-foreground: #fde68a;
+  color: #ffffff;
+  border-color: transparent;
+}
+
+/* Candy blocks, gradient tiles and riso inks are light in both themes, so their text stays dark. */
+:is([data-tones="candy"], [data-tones="gradient"], [data-tones="riso"]) :is([data-stat-row], [data-tone-group]) > :not([data-card-tone]) {
+  --foreground: #14141b;
+  --card-foreground: #14141b;
+  --muted-foreground: #4a4a55;
+  --muted: rgb(255 255 255 / 0.55);
+  --border: rgb(20 20 27 / 0.14);
+  /* Status colours take their light-mode shades, so a change pill reads on the light tile in a dark theme. */
+  --diff-add: #15803d;
+  --diff-add-bg: rgb(22 163 74 / 0.14);
+  --destructive: #b91c1c;
+  --diff-remove: #b91c1c;
+  --diff-remove-bg: rgb(220 38 38 / 0.12);
+  --warning-foreground: #92400e;
+  color: #14141b;
+}
+
+
+/*
+  Riso print (data-button / data-card "print"): a hard outline in the main
+  ink, and the shape printed again a little off register in the second ink
+  (the accent, --highlight), like a two-drum risograph. Key figures in a
+  printed card catch the second ink too. The text keeps its own colour, so
+  it reads exactly as it would without the misprint.
+*/
+[data-button="print"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"], [data-variant="outline"], [data-variant="secondary"]) {
+  border: 2px solid var(--primary-strong);
+  box-shadow: 3px 3px 0 0 color-mix(in oklch, var(--highlight, var(--primary)) 85%, transparent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: transform 80ms ease, box-shadow 80ms ease;
+}
+[data-button="print"] [data-slot="button"]:is([data-variant="outline"], [data-variant="secondary"]) {
+  background-color: var(--card);
+  color: var(--primary-ink, var(--foreground));
+}
+[data-button="print"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"], [data-variant="outline"], [data-variant="secondary"]):hover:not(:active) {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 0 color-mix(in oklch, var(--highlight, var(--primary)) 85%, transparent);
+}
+[data-button="print"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"], [data-variant="outline"], [data-variant="secondary"]):active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 color-mix(in oklch, var(--highlight, var(--primary)) 85%, transparent);
+}
+[data-button="print"] [data-slot="button"]:is([data-variant="outline"], [data-variant="secondary"]):hover:not(:active) {
+  background-color: color-mix(in oklch, var(--highlight, var(--primary)) 10%, var(--card));
+}
+[data-card="print"] [data-slot="card"]:not([class*="border-primary"]) {
+  border: calc(var(--studio-border, 1px) + 1px) solid var(--studio-border-color, var(--foreground));
+}
+[data-card="print"] [data-slot="card"] {
+  box-shadow: 4px 4px 0 0 color-mix(in oklch, var(--highlight, var(--primary)) 70%, transparent), var(--studio-card-shadow, 0 0 #0000);
+}
+[data-card="print"] [data-slot="card"] .font-heading.tabular-nums {
+  text-shadow: 0.05em 0.045em 0 color-mix(in oklch, var(--highlight, var(--primary)) 55%, transparent);
+}
+
+/*
+  Clay (data-button / data-card "clay"): soft, puffy shapes. A lit top edge,
+  a shade gathered along the bottom inside, and a wide soft shadow in the
+  card's own colour (its tone, when the card has one), never a dark band.
+*/
+[data-button="clay"] [data-slot="button"] {
+  border-radius: 9999px;
+}
+[data-button="clay"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"]) {
+  box-shadow:
+    inset 0 2px 1px color-mix(in oklch, white 42%, transparent),
+    inset 0 -3px 5px color-mix(in oklch, black 18%, transparent),
+    0 6px 14px -6px color-mix(in oklch, var(--primary-strong) 55%, transparent);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+[data-button="clay"] [data-slot="button"]:is([data-variant="outline"], [data-variant="secondary"]) {
+  background-color: var(--card);
+  border-color: transparent;
+  box-shadow:
+    inset 0 2px 1px color-mix(in oklch, white 85%, transparent),
+    inset 0 -3px 5px color-mix(in oklch, var(--foreground) 7%, transparent),
+    0 4px 10px -4px color-mix(in oklch, var(--foreground) 16%, transparent);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+[data-button="clay"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"], [data-variant="outline"], [data-variant="secondary"]):hover:not(:active) {
+  transform: translateY(-1px);
+}
+[data-button="clay"] [data-slot="button"]:is([data-variant="default"], [data-variant="gradient"], [data-variant="outline"], [data-variant="secondary"]):active {
+  transform: translateY(1px);
+}
+[data-card="clay"] {
+  --clay-shadow: color-mix(in oklch, var(--foreground) 13%, transparent);
+}
+[data-card="clay"][data-tones] :is([data-stat-row], [data-tone-group]) > :not([data-card-tone]) {
+  --clay-shadow: color-mix(in oklch, color-mix(in oklch, var(--tone) 55%, black) 38%, transparent);
+}
+[data-card="clay"] [data-slot="card"]:not([class*="border-primary"]) {
+  border-color: transparent;
+}
+[data-card="clay"] [data-slot="card"] {
+  background-image: linear-gradient(180deg, color-mix(in oklch, white 30%, transparent), transparent 45%), var(--studio-card-texture, none);
+  box-shadow:
+    inset 0 2px 1px color-mix(in oklch, white 70%, transparent),
+    inset 0 -8px 16px -6px color-mix(in oklch, var(--foreground) 8%, transparent),
+    0 2px 3px color-mix(in oklch, var(--foreground) 4%, transparent),
+    0 16px 30px -14px var(--clay-shadow),
+    var(--studio-card-shadow, 0 0 #0000);
+}
+.dark [data-card="clay"] [data-slot="card"],
+[data-card="clay"].dark [data-slot="card"] {
+  background-image: linear-gradient(180deg, color-mix(in oklch, white 7%, transparent), transparent 45%), var(--studio-card-texture, none);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, white 14%, transparent),
+    inset 0 -8px 16px -6px color-mix(in oklch, black 30%, transparent),
+    0 16px 30px -14px color-mix(in oklch, black 50%, transparent),
+    var(--studio-card-shadow, 0 0 #0000);
+}
+
+/*
+  Clerk's sign-in and sign-up inside Studio's auth card (see
+  src/app/(auth)/clerk-appearance.ts). Plain CSS on purpose: Clerk's styles are
+  unlayered, so Tailwind utilities passed as Clerk classes lose to them.
+*/
+.cl-rootBox:is(.cl-signIn-root, .cl-signUp-root) {
+  width: 100%;
+}
+:is(.cl-signIn-root, .cl-signUp-root) .cl-cardBox {
+  width: 100%;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  overflow: visible;
+}
+:is(.cl-signIn-root, .cl-signUp-root) .cl-card {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
+}
+:is(.cl-signIn-root, .cl-signUp-root) .cl-footer {
+  background: none;
+  margin-top: 0;
+}
+:is(.cl-signIn-root, .cl-signUp-root) .cl-footer > * {
+  padding-left: 0;
+  padding-right: 0;
+}
+/* Studio's own link under the card says the same. */
+:is(.cl-signIn-root, .cl-signUp-root) .cl-footerAction {
+  display: none;
+}
+/* The first step: Studio's heading above the form says the same. */
+.cl-signIn-start .cl-header,
+.cl-signUp-start .cl-header {
+  display: none;
+}
+
+/* Your GliaKit theme, from GliaKit Studio. Change values here; every component
+   follows. Card effects, the backdrop and component styles are switched on by data-*
+   attributes on <html> in layout.tsx. */
+:root,
+.dark,
+.light {
+  --primary: #a3e635;
+  --primary-foreground: #0a0a0a;
+  --primary-ink: #52731b;
+  --primary-mark: #6a9622;
+  --studio-brand-fill: #a3e635;
+  --studio-brand-text: #0a0a0a;
+  --studio-ink-light: #52731b;
+  --studio-ink-dark: #a3e635;
+  --primary-strong: #a3e635;
+  --ring: #a3e635;
+  --studio-radius-sm: 4px;
+  --studio-radius-md: 6px;
+  --studio-radius-lg: 8px;
+  --studio-radius-xl: 12px;
+  --spacing: 0.205rem;
+  --studio-border: 1px;
+  --studio-gap: 10px;
+  --studio-font-heading: var(--font-inter);
+  --studio-font-body: var(--font-inter);
+  --studio-band: #a3e635;
+  --studio-band-fg: #0a0a0a;
+  --studio-band-muted: #384c17;
+  --gradient-signal: linear-gradient(90deg, #52731b 0%, #137483 100%);
+  --gradient-signal-135: linear-gradient(135deg, #52731b 0%, #137483 100%);
+  --gradient-signal-loop: linear-gradient(90deg, #52731b 0%, #137483 50%, #52731b 100%);
+  --chart-1-light: #6a9622;
+  --chart-2-light: #3d5614;
+  --chart-3-light: #5a7f1d;
+  --chart-4-light: #2f420f;
+  --chart-5-light: #4b6a18;
+  --chart-1-dark: #a3e635;
+  --chart-2-dark: #75a426;
+  --chart-3-dark: #50701a;
+  --chart-4-dark: #8bc32d;
+  --chart-5-dark: #618920;
+  --chart-ramp-1: light-dark(#6a9622, #a3e635);
+  --chart-ramp-2: light-dark(#5a7f1d, #8bc32d);
+  --chart-ramp-3: light-dark(#4b6a18, #75a426);
+  --chart-ramp-4: light-dark(#3d5614, #618920);
+  --chart-ramp-5: light-dark(#2f420f, #50701a);
+  --studio-card-shadow: 0 1px 2px color-mix(in oklch, #000000 4.4%, transparent), 0 4.1px 13.6px -2.7px color-mix(in oklch, #000000 6.8%, transparent), 0 13.6px 38px -10.8px color-mix(in oklch, #000000 6.15%, transparent), inset 0 1px 0 0 color-mix(in oklch, white 60%, transparent), inset 0 -1px 0 0 color-mix(in oklch, var(--foreground) 7.2%, transparent), inset 0 0 0 1px color-mix(in oklch, var(--foreground) 5%, transparent);
+  --studio-card-texture: linear-gradient(to bottom, color-mix(in oklch, white 28%, transparent), transparent 40%, color-mix(in oklch, var(--foreground) 4%, transparent));
+}
